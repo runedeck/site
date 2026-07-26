@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rune · your ideas, set in stone</title>
+<meta name="description" content="One canonical deck of skills, agents, and rules, compiled for every AI harness. Versioned, schema-validated, reviewed.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="runedeck">
+<meta property="og:title" content="rune · your ideas, set in stone">
+<meta property="og:description" content="One canonical deck of skills, agents, and rules, compiled for every AI harness. Versioned, schema-validated, reviewed.">
+<meta property="og:url" content="https://runedeck.ai/">
+<meta property="og:image" content="https://runedeck.ai/shared/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="shared/favicon.svg">
+<link rel="stylesheet" href="shared/tokens.css">
+<style>
+    * { box-sizing: border-box; margin: 0; }
+    body { background: var(--bg); color: var(--text); font: 15px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent); text-decoration: none; }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+    nav { border-bottom: 1px solid var(--border); }
+    .nav-inner { display: flex; align-items: center; gap: 20px; padding: 14px 0; }
+    .brand { font-weight: 700; font-size: 16px; }
+    .brand .glyphs { color: var(--accent); margin-right: 8px; }
+    .nav-links { margin-left: auto; display: flex; align-items: center; gap: 18px; font-size: 13.5px; }
+    .nav-links a { color: var(--text-dim); } .nav-links a:hover { color: var(--text); }
+    .nav-cta { background: var(--accent-soft); color: var(--accent) !important; border: 1px solid var(--border-strong);
+               padding: 5px 12px; border-radius: var(--radius); font-size: 13px; font-weight: 600; }
+
+    .hero { padding: 64px 0 56px; text-align: center; }
+    .emblem { width: 116px; height: 116px; margin: 0 auto 28px; display: block;
+              filter: drop-shadow(0 0 24px rgba(91,141,239,0.38)); }
+    .emblem path { stroke: var(--accent); stroke-width: 7; stroke-linecap: round; fill: none; }
+    .emblem .shadowstroke { stroke: rgba(91,141,239,0.16); stroke-width: 14; }
+    .eyebrow { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em;
+               color: var(--muted); margin-bottom: 14px; }
+    h1 { font-size: 46px; font-weight: 700; letter-spacing: -0.02em; }
+    .sub { margin: 16px auto 28px; font-size: 17px; color: var(--text-dim); max-width: 540px; }
+    .cta-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .install { background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--radius);
+               padding: 12px 18px; font: 14px var(--mono); }
+    .install .dollar { color: var(--muted); }
+    .install b { color: var(--accent); font-weight: 400; }
+    .ghost { border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 18px;
+             font-size: 14px; color: var(--text-dim); }
+    .ghost:hover { border-color: var(--border-strong); color: var(--text); }
+
+    .term { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+            max-width: 640px; margin: 40px auto 0; overflow: hidden; text-align: left; }
+    .term-bar { display: flex; gap: 6px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+    .term-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--surface3); }
+    .term pre { padding: 18px 20px; font: 13.5px/1.7 var(--mono); overflow-x: auto; color: var(--text-dim); }
+    .p { color: var(--accent); } .ok { color: var(--green); } .d { color: var(--muted); }
+
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px; padding: 52px 0 30px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 20px; text-align: left; transition: border-color 0.12s, transform 0.2s; }
+    .card:hover { border-color: var(--border-strong); transform: scale(1.015); }
+    .card .icon { width: 52px; height: 52px; border-radius: 13px; display: grid; place-items: center;
+                  font-size: 24px; margin-bottom: 14px; }
+    .ic-deploy { background: rgba(91,141,239,0.14); color: var(--accent); }
+    .ic-trust  { background: rgba(68,183,122,0.14); color: var(--green); }
+    .ic-adopt  { background: rgba(163,116,224,0.14); color: var(--purple); }
+    .card h3 { font-size: 16px; font-weight: 620; letter-spacing: -0.005em; margin-bottom: 8px; }
+    .card p { font-size: 13.5px; color: var(--text-dim); }
+
+    .surfaces { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; padding: 6px 0 46px; }
+    .surface { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: left; }
+    .surface .label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); margin-bottom: 12px; }
+    .surface pre { font: 13.5px/1.7 var(--mono); overflow-x: auto; color: var(--text-dim); }
+    .surface p { font-size: 13.5px; color: var(--text-dim); }
+    .surface p + p { margin-top: 10px; }
+    .mono-note { font-family: var(--mono); color: var(--muted); }
+    .a { color: var(--amber); }
+
+    .prov { text-align: center; border-top: 1px solid var(--border); padding: 28px 0 56px; }
+    .prov .label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+                   color: var(--muted); margin-bottom: 16px; }
+    .chips { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+    .chip { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border);
+            background: var(--surface); border-radius: var(--radius); padding: 7px 12px; font: 13px var(--mono); }
+    .chip i { width: 8px; height: 8px; border-radius: 50%; }
+    .chip-next { border-style: dashed; color: var(--dim); background: transparent; }
+    .chip-next i { border: 1px dashed var(--dim); background: transparent; }
+
+    footer { border-top: 1px solid var(--border); padding: 20px 0 34px; font: 12.5px var(--mono);
+             color: var(--muted); display: flex; gap: 18px; justify-content: center; }
+    footer a { color: var(--dim); }
+</style>
+</head>
+<body>
+<nav><div class="wrap nav-inner">
+    <span class="brand"><span class="glyphs">ᚱᚢᚾᛖ</span>rune</span>
+    <div class="nav-links">
+        <a href="first-contact/">first contact</a>
+        <a href="designs/">designs</a>
+        <a href="https://github.com/runedeck">github</a>
+        <a class="nav-cta" href="#install">install</a>
+    </div>
+</div></nav>
+
+<header class="hero wrap">
+    <svg class="emblem" viewBox="0 0 100 100" role="img" aria-label="bindrune of raido and dagaz">
+        <path class="shadowstroke" d="M50 8 V92 M50 14 L74 32 L50 52 M50 52 L74 76 M50 14 L26 32 L50 52 M50 52 L26 76"/>
+        <path d="M50 8 V92"/>
+        <path d="M50 14 L74 32 L50 52 L74 76"/>
+        <path d="M50 14 L26 32 L50 52 L26 76"/>
+    </svg>
+    <div class="eyebrow">deck toolkit for AI harnesses</div>
+    <h1>Your ideas, set in stone.</h1>
+    <p class="sub">Tools are temporary; what you taught them is not. Skills, agents, and rules
+       live in one canonical deck you own: versioned, schema-validated, reviewed. rune
+       compiles them for every AI harness you run today, and whatever replaces them.</p>
+    <div class="cta-row" id="install">
+        <span class="install"><span class="dollar">$</span> <b>brew install runedeck/tap/rune</b></span>
+        <a class="ghost" href="first-contact/">first contact →</a>
+    </div>
+    <div class="term">
+        <div class="term-bar"><i></i><i></i><i></i></div>
+        <pre><span class="p">$</span> rune add core --source ~/decks/runedeck
+<span class="d">staged rune selection 'core' → .rune</span>
+<span class="p">$</span> rune install
+ <span class="ok">●</span> 137 deployed
+<span class="p">$</span> rune doctor --target .
+ ./.claude/skills/rune <span class="d">(claude)</span>
+   <span class="ok">ok 31</span> · modified 0 · missing 0 · orphan 0</pre>
+    </div>
+</header>
+
+<section class="wrap cards">
+    <div class="card"><div class="icon ic-deploy">ᚠ</div>
+        <h3>Canonical by construction</h3>
+        <p>The deck is a git repository you own. Artifacts are portable markdown held to a
+           schema; anything tool-specific lives in variants that merge at assembly and never
+           touch the source. What you review is what every tool gets.</p></div>
+    <div class="card"><div class="icon ic-trust">ᛏ</div>
+        <h3>Reviewed, then trusted</h3>
+        <p>Third-party artifacts enter through block-by-block review with injection linting;
+           every block gets a verdict. Every deployed file carries SLSA provenance back to its
+           source, and doctor never overwrites an edit it did not make.</p></div>
+    <div class="card"><div class="icon ic-adopt">ᛟ</div>
+        <h3>Built to extend</h3>
+        <p>Providers are configuration, not code: a target directory and a transform list.
+           The same profiles launch and supervise third-party tools, so one deck reaches
+           whatever your stack grows into next.</p></div>
+</section>
+
+<section class="wrap surfaces">
+    <div class="surface">
+        <div class="label">the cli runs it</div>
+        <pre><span class="p">$</span> rune adopt next --json
+<span class="d">block 14/31 · flags: tool-invocation</span>
+<span class="p">$</span> rune adopt verdict adapt 14
+<span class="p">$</span> rune drift --target .
+ <span class="d">frontmatter</span> argument-hint <span class="a">changed</span></pre>
+    </div>
+    <div class="surface">
+        <div class="label">the dashboard shows it</div>
+        <p>A read-only web view of the whole deck: deployment state, provenance chains,
+           effective content with variants merged, and inline review annotations.
+           You judge diffs where they are legible, not in a terminal scrollback.</p>
+        <p class="mono-note">rune dashboard → rune.localhost</p>
+    </div>
+</section>
+
+<section class="prov">
+    <div class="label">providers are config, not code</div>
+    <div class="chips">
+        <span class="chip"><i style="background:var(--hx-claude)"></i>claude</span>
+        <span class="chip"><i style="background:var(--hx-codex)"></i>codex</span>
+        <span class="chip"><i style="background:var(--hx-gemini)"></i>gemini</span>
+        <span class="chip"><i style="background:var(--hx-opencode)"></i>opencode</span>
+        <span class="chip chip-next"><i></i>your next tool</span>
+    </div>
+</section>
+
+<footer>
+    <span>rune · EUPL-1.2</span>
+    <a href="https://github.com/runedeck">github</a>
+    <a href="first-contact/">first contact</a>
+    <a href="designs/">design gallery</a>
+</footer>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>og card source</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+    /* Render source for shared/og.png: screenshot this page at exactly 1200x630. */
+    * { box-sizing: border-box; margin: 0; }
+    body { width: 1200px; height: 630px; overflow: hidden; background: var(--bg);
+           color: var(--text); font-family: var(--sans); -webkit-font-smoothing: antialiased;
+           display: flex; align-items: center; gap: 72px; padding: 0 96px; }
+    .emblem { width: 240px; height: 240px; flex: none;
+              filter: drop-shadow(0 0 44px rgba(91,141,239,0.45)); }
+    .emblem path { stroke: var(--accent); stroke-width: 7; stroke-linecap: round; fill: none; }
+    .emblem .shadowstroke { stroke: rgba(91,141,239,0.16); stroke-width: 14; }
+    .brand { font-size: 30px; font-weight: 700; margin-bottom: 22px; }
+    .brand .glyphs { color: var(--accent); margin-right: 12px; }
+    h1 { font-size: 74px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.06; }
+    .sub { margin-top: 26px; font-size: 29px; color: var(--text-dim); max-width: 640px; }
+    .install { margin-top: 34px; display: inline-block; background: var(--surface);
+               border: 1px solid var(--border-strong); border-radius: 8px; padding: 16px 22px;
+               font: 24px var(--mono); }
+    .install .dollar { color: var(--muted); }
+    .install b { color: var(--accent); font-weight: 400; }
+</style>
+</head>
+<body>
+    <svg class="emblem" viewBox="0 0 100 100" aria-hidden="true">
+        <path class="shadowstroke" d="M50 8 V92 M50 14 L74 32 L50 52 M50 52 L74 76 M50 14 L26 32 L50 52 M50 52 L26 76"/>
+        <path d="M50 8 V92"/>
+        <path d="M50 14 L74 32 L50 52 L74 76"/>
+        <path d="M50 14 L26 32 L50 52 L26 76"/>
+    </svg>
+    <div>
+        <div class="brand"><span class="glyphs">ᚱᚢᚾᛖ</span>rune</div>
+        <h1>Your ideas,<br>set in stone.</h1>
+        <p class="sub">One canonical deck of skills, agents, and rules, compiled for every AI harness.</p>
+        <span class="install"><span class="dollar">$</span> <b>brew install runedeck/tap/rune</b></span>
+    </div>
+</body>
+</html>

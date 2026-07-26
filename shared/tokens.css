@@ -1,0 +1,51 @@
+/* runedeck design tokens, extracted from the rune dashboard and CLI sheet. */
+:root {
+    /* dashboard surfaces */
+    --bg: #0a0f1a;
+    --surface: #121a2a;
+    --surface2: #1a2438;
+    --surface3: #243149;
+    --border: #2a3a56;
+    --border-strong: #3e5177;
+
+    /* dashboard text ramp */
+    --text: #e8ecf4;
+    --text-dim: #a1aec5;
+    --muted: #7a879f;
+    --dim: #8b97ad;
+
+    /* accents: web blue vs terminal cyan is the open brand axis */
+    --accent: #5b8def;
+    --accent-soft: #1e3a7a44;
+    --cyan: #7dcfff;
+
+    /* status */
+    --green: #44b77a;
+    --green-soft: #0f3d2a;
+    --amber: #e0a94a;
+    --amber-soft: #3d2d0f;
+    --red: #e15555;
+    --red-soft: #3d1515;
+    --purple: #a374e0;
+
+    /* terminal truecolor sheet (Tokyo Night) */
+    --tn-bg: #1a1b26;
+    --tn-panel: #16161e;
+    --tn-text: #c0caf5;
+    --tn-green: #9ece6a;
+    --tn-amber: #e0af68;
+    --tn-red: #f7768e;
+    --tn-violet: #bb9af7;
+
+    /* harness quartet */
+    --hx-claude: #d08770;
+    --hx-codex: #44b77a;
+    --hx-gemini: #5b8def;
+    --hx-opencode: #b48ead;
+
+    /* shape and type */
+    --radius: 6px;
+    --mono: 'SF Mono', 'Cascadia Code', 'JetBrains Mono', Menlo, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
+    --serif: 'New York', Georgia, 'Times New Roman', serif;
+}

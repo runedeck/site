@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>runedeck · pick a face</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+    * { box-sizing: border-box; margin: 0; }
+    body { background: var(--bg); color: var(--text); font: 15px/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent); text-decoration: none; }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+    header { padding: 44px 0 8px; }
+    .brand { font-weight: 700; font-size: 16px; }
+    .brand .glyphs { color: var(--accent); margin-right: 8px; }
+    h1 { font-size: 30px; font-weight: 700; letter-spacing: -0.015em; margin-top: 20px; }
+    .sub { color: var(--text-dim); margin: 10px 0 6px; max-width: 70ch; }
+    .hint { font: 12.5px var(--mono); color: var(--muted); margin-bottom: 26px; }
+
+    .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; padding-bottom: 60px; }
+    .entry { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+             overflow: hidden; transition: border-color 0.12s, transform 0.2s; }
+    .entry:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+    .preview { position: relative; height: 240px; overflow: hidden; background: #05070c;
+               border-bottom: 1px solid var(--border); }
+    .preview iframe { width: 1280px; height: 960px; border: 0;
+                      transform: scale(0.25); transform-origin: 0 0; pointer-events: none; }
+    .preview a.cover { position: absolute; inset: 0; z-index: 1; }
+    .meta { padding: 14px 16px 16px; }
+    .meta .row { display: flex; align-items: baseline; gap: 10px; }
+    .meta .num { font: 13px var(--mono); color: var(--muted); }
+    .meta h2 { font-size: 15.5px; font-weight: 620; }
+    .meta .accent-tag { margin-left: auto; font: 10.5px var(--mono); text-transform: uppercase;
+                        letter-spacing: 0.07em; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
+    .tag-blue { color: var(--accent); } .tag-cyan { color: var(--cyan); } .tag-amber { color: var(--amber); }
+    .meta p { font-size: 13px; color: var(--text-dim); margin-top: 6px; }
+    .meta .open { display: inline-block; margin-top: 10px; font: 12.5px var(--mono); }
+
+    footer { border-top: 1px solid var(--border); padding: 18px 0 32px; font: 12.5px var(--mono);
+             color: var(--muted); display: flex; gap: 18px; }
+</style>
+</head>
+<body>
+<header class="wrap">
+    <span class="brand"><span class="glyphs">ᚱᚢᚾᛖ</span>rune</span>
+    <h1>Ten faces for runedeck</h1>
+    <p class="sub">The same page ten ways: identical copy, nav, terminal demo, features, and provider row,
+       so only the design varies. Previews are the live pages at quarter scale; open any of them full size
+       before judging, ambient effects read differently at full width.</p>
+    <p class="hint">accent tags mark the brand axis: BLUE is the dashboard accent #5b8def, CYAN the terminal wordmark #7dcfff</p>
+</header>
+
+<main class="wrap gallery">
+    <div class="entry">
+        <div class="preview"><a class="cover" href="01-dashboard.html" aria-label="open dashboard continuity"></a><iframe src="01-dashboard.html" loading="lazy" title="dashboard continuity"></iframe></div>
+        <div class="meta"><div class="row"><span class="num">01</span><h2>Dashboard continuity</h2><span class="accent-tag tag-blue">blue</span></div>
+        <p>Exact dashboard tokens and card language; the site looks like the product already does.</p>
+        <a class="open" href="01-dashboard.html">open full page →</a></div>
+    </div>
+    <div class="entry">
+        <div class="preview"><a class="cover" href="02-terminal.html" aria-label="open terminal first"></a><iframe src="02-terminal.html" loading="lazy" title="terminal first"></iframe></div>
+        <div class="meta"><div class="row"><span class="num">02</span><h2>Terminal first</h2><span class="accent-tag tag-cyan">cyan</span></div>
+        <p>The whole page is one Tokyo Night terminal session; crew-style § sections, ᚱᚢᚾᛖ as the prompt.</p>
+        <a class="open" href="02-terminal.html">open full page →</a></div>
+    </div>
+    <div class="entry">
+        <div class="preview"><a class="cover" href="03-futhark.html" aria-label="open elder futhark glow"></a><iframe src="03-futhark.html" loading="lazy" title="elder futhark glow"></iframe></div>
+        <div class="meta"><div class="row"><span class="num">03</span><h2>Elder futhark glow</h2><span class="accent-tag tag-cyan">cyan</span></div>
+        <p>Oversized rune watermarks glowing dimly behind each section; the most atmospheric runic take.</p>
+        <a class="open" href="03-futhark.html">open full page →</a></div>
+    </div>
+    <div class="entry">
+        <div class="preview"><a class="cover" href="04-stone.html" aria-label="open carved stone"></a><iframe src="04-stone.html" loading="lazy" title="carved stone"></iframe></div>
+        <div class="meta"><div class="row"><span class="num">04</span><h2>Carved stone</h2><span class="accent-tag tag-amber">amber</span></div>
+        <p>Slate texture, engraved headings, Roman numerals; monumental rather than sleek.</p>
+        <a class="open" href="04-stone.html">open full page →</a></div>
+    </div>
+    <div class="entry">
+        <div class="preview"><a class="cover" href="05-aurora.html" aria-label="open aurora"></a><iframe src="05-aurora.html" loading="lazy" title="aurora"></iframe></div>
+        <div class="meta"><div class="row"><span class="num">05</span><h2>Aurora</h2><span class="accent-tag tag-cyan">cyan</span></div>
+        <p>Slow-drifting violet and cyan light behind a glassy hero; calm below the fold. CSS only.</p>
+        <a class="open" href="05-aurora.html">open full page →</a></div>
+    </div>
+    <div class="entry">
+        <div class="preview"><a class="cover" href="06-nordic.html" aria-label="open nordic minimal"></a><iframe src="06-nordic.html" loading="lazy" title="nordic minimal"></iframe></div>
+        <div class="meta"><div class="row"><span class="num">06</span><h2>Nordic minimal</h2><span class="accent-tag tag-blue">blue</span></div>
+        <p>The most restrained: one narrow column, § numbers, rune bullets, nothing else. Closest to crew, but dark.</p>
+        <a class="open" href="06-nordic.html">open full page →</a></div>
+    </div>
+    <div class="entry">
+        <div class="preview"><a class="cover" href="07-leylines.html" aria-label="open ley lines"></a><iframe src="07-leylines.html" loading="lazy" title="ley lines"></iframe></div>
+        <div class="meta"><div class="row"><span class="num">07</span><h2>Ley lines</h2><span class="accent-tag tag-cyan">cyan</span></div>
+        <p>The pipeline as a glowing constellation: deck through assemble to four harnesses, animated edges.</p>
+        <a class="open" href="07-leylines.html">open full page →</a></div>
+    </div>
+    <div class="entry">
+        <div class="preview"><a class="cover" href="08-editorial.html" aria-label="open editorial serif"></a><iframe src="08-editorial.html" loading="lazy" title="editorial serif"></iframe></div>
+        <div class="meta"><div class="row"><span class="num">08</span><h2>Editorial serif</h2><span class="accent-tag tag-amber">amber</span></div>
+        <p>Serif display, drop cap, prose-first; documentation as literature rather than a product page.</p>
+        <a class="open" href="08-editorial.html">open full page →</a></div>
+    </div>
+    <div class="entry">
+        <div class="preview"><a class="cover" href="09-brutalist.html" aria-label="open brutalist mono grid"></a><iframe src="09-brutalist.html" loading="lazy" title="brutalist mono grid"></iframe></div>
+        <div class="meta"><div class="row"><span class="num">09</span><h2>Brutalist mono grid</h2><span class="accent-tag tag-blue">blue</span></div>
+        <p>All mono, visible 1px grid, zero radius, a real table; the command reference as an aesthetic.</p>
+        <a class="open" href="09-brutalist.html">open full page →</a></div>
+    </div>
+    <div class="entry">
+        <div class="preview"><a class="cover" href="10-bindrune.html" aria-label="open bindrune emblem"></a><iframe src="10-bindrune.html" loading="lazy" title="bindrune emblem"></iframe></div>
+        <div class="meta"><div class="row"><span class="num">10</span><h2>Bindrune emblem</h2><span class="accent-tag tag-cyan">cyan</span></div>
+        <p>A constructed bindrune as a glowing centered logo; the most branded, logo-led direction.</p>
+        <a class="open" href="10-bindrune.html">open full page →</a></div>
+    </div>
+</main>
+
+<footer><div class="wrap" style="display:flex;gap:18px;">
+    <span>rune · design gallery · EUPL-1.2</span>
+    <a href="../first-contact/">first contact</a>
+</div></footer>
+</body>
+</html>

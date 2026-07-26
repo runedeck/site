@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rune · brutalist mono grid</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+    * { box-sizing: border-box; margin: 0; border-radius: 0 !important; }
+    body { background: #05070c; color: #e8ecf4; font: 14px/1.65 var(--mono); -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+    .frame { max-width: 980px; margin: 24px auto; border: 1px solid var(--border); }
+
+    nav { display: flex; border-bottom: 1px solid var(--border); }
+    nav > * { padding: 12px 16px; }
+    .brand { font-weight: 700; border-right: 1px solid var(--border); }
+    .brand .glyphs { color: var(--accent); }
+    .tag { color: #59627a; flex: 1; }
+    nav a { border-left: 1px solid var(--border); color: #a1aec5; text-decoration: none; }
+    nav a:hover { background: #10141d; color: #fff; }
+
+    .hero { padding: 56px 24px; border-bottom: 1px solid var(--border); }
+    h1 { font-size: 40px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; line-height: 1.1; }
+    h1::after { content: "_"; color: var(--accent); }
+    .sub { margin: 18px 0 26px; color: #a1aec5; max-width: 64ch; }
+    .install { display: inline-block; border: 1px solid var(--accent); color: var(--accent); padding: 11px 16px; }
+    .install::before { content: "$ "; color: #59627a; }
+
+    .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--border); }
+    @media (max-width: 800px) { .grid3 { grid-template-columns: 1fr; } }
+    .cell { padding: 24px; border-right: 1px solid var(--border); }
+    .cell:last-child { border-right: 0; }
+    @media (max-width: 800px) { .cell { border-right: 0; border-bottom: 1px solid var(--border); } .cell:last-child { border-bottom: 0; } }
+    .cell .num { color: #59627a; display: block; margin-bottom: 12px; }
+    h3 { font-size: 14px; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
+    .cell p { font-size: 13px; color: #a1aec5; }
+
+    .term { border-bottom: 1px solid var(--border); }
+    .term-head { padding: 10px 24px; border-bottom: 1px solid var(--border); color: #59627a;
+                 font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .term pre { padding: 20px 24px; overflow-x: auto; line-height: 1.7; color: #a1aec5; }
+    .p { color: var(--accent); } .ok { color: var(--green); } .d { color: #59627a; }
+
+    table { width: 100%; border-collapse: collapse; }
+    caption { text-align: left; padding: 10px 24px; border-bottom: 1px solid var(--border); color: #59627a;
+              font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+    td { padding: 12px 24px; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: 0; }
+    td.k { width: 160px; font-weight: 700; }
+
+    footer { display: flex; gap: 0; border-top: 1px solid var(--border); }
+    footer > * { padding: 12px 16px; border-right: 1px solid var(--border); color: #59627a; font-size: 12.5px; }
+</style>
+</head>
+<body>
+<div class="frame">
+<nav>
+    <span class="brand"><span class="glyphs">ᚱᚢᚾᛖ</span> RUNE</span>
+    <span class="tag">deck toolkit for AI harnesses</span>
+    <a href="index.html">DESIGNS</a><a href="../first-contact/">FIRST-CONTACT</a><a href="https://github.com/runedeck">GITHUB</a>
+</nav>
+
+<header class="hero">
+    <h1>Your runes,<br>deployed</h1>
+    <p class="sub">One canonical deck of skills, agents, and rules, compiled for every AI harness.
+       Claude Code, Codex, Gemini, OpenCode: one source of truth, four native dialects.</p>
+    <span class="install">brew install runedeck/tap/rune</span>
+</header>
+
+<section class="term">
+    <div class="term-head">demo · add / install / doctor</div>
+    <pre><span class="p">$</span> rune add core --source ~/decks/runedeck
+<span class="d">staged rune selection 'core' → .rune</span>
+<span class="p">$</span> rune install
+ <span class="ok">●</span> 137 deployed
+<span class="p">$</span> rune doctor --target .
+ ./.claude/skills/rune <span class="d">(claude)</span>
+   <span class="ok">ok 31</span> · modified 0 · missing 0 · orphan 0</pre>
+</section>
+
+<section class="grid3">
+    <div class="cell"><span class="num">[01]</span>
+        <h3>One source, every harness</h3>
+        <p>Canonical markdown with Agent Skills frontmatter. Provider variants merge at assembly:
+           argument hints for Claude, TOML agents for Codex, remapped tools for Gemini.
+           Your instructions become a build artifact.</p></div>
+    <div class="cell"><span class="num">[02]</span>
+        <h3>Trust you can audit</h3>
+        <p>Every deployed file carries SLSA provenance back to its source line. doctor never
+           overwrites your edits, drift shows exactly what moved, and validation names
+           what it could not check.</p></div>
+    <div class="cell"><span class="num">[03]</span>
+        <h3>Adoption with a ceremony</h3>
+        <p>Third-party skills enter through block-by-block review with injection linting.
+           Every block gets a verdict: keep, adapt, or cut. Nothing lands unverdicted.</p></div>
+</section>
+
+<table>
+    <caption>deploys to</caption>
+    <tr><td class="k" style="color:var(--hx-claude)">.claude</td><td>skills as the rune plugin, argument hints, tool pre-approval</td></tr>
+    <tr><td class="k" style="color:var(--hx-codex)">.codex</td><td>agents converted to TOML, links stripped</td></tr>
+    <tr><td class="k" style="color:var(--hx-gemini)">.gemini</td><td>kebab-case agents, tools remapped to native names</td></tr>
+    <tr><td class="k" style="color:var(--hx-opencode)">.opencode</td><td>kebab-case agents, links stripped</td></tr>
+</table>
+
+<footer>
+    <span>rune · EUPL-1.2</span>
+    <span><a href="https://github.com/runedeck">github</a></span>
+    <span><a href="../first-contact/">first-contact</a></span>
+</footer>
+</div>
+</body>
+</html>

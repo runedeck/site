@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rune · nordic minimal</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+    * { box-sizing: border-box; margin: 0; }
+    body { background: #0b0e14; color: #dde3ee; font: 16px/1.65 var(--sans); -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .wrap { max-width: 660px; margin: 0 auto; padding: 0 24px; }
+
+    nav { padding: 22px 0; }
+    .nav-inner { display: flex; align-items: baseline; gap: 16px; }
+    .brand { font-weight: 650; font-size: 15px; }
+    .brand .glyphs { color: var(--accent); margin-right: 6px; }
+    .nav-links { margin-left: auto; display: flex; gap: 16px; font-size: 13px; color: var(--muted); }
+    .nav-links a { color: var(--muted); } .nav-links a:hover { color: #dde3ee; text-decoration: none; }
+
+    .hero { padding: 120px 0 84px; }
+    h1 { font-size: 40px; font-weight: 650; letter-spacing: -0.015em; line-height: 1.18; }
+    .sub { margin: 20px 0 34px; font-size: 17px; color: #97a1b6; }
+    .install { font: 14.5px var(--mono); color: #97a1b6; }
+    .install b { color: var(--accent); font-weight: 400; }
+    .install::before { content: "$ "; color: #59627a; }
+
+    section { padding: 58px 0; border-top: 1px solid #1b2231; }
+    .sec { font: 13px var(--mono); color: #59627a; margin-bottom: 18px; }
+    .sec b { color: var(--accent); font-weight: 400; }
+    h2 { font-size: 21px; font-weight: 620; margin-bottom: 10px; letter-spacing: -0.01em; }
+    section p { color: #97a1b6; }
+    section p + p { margin-top: 10px; }
+
+    pre.shell { background: #10141d; border: 1px solid #1b2231; border-radius: var(--radius);
+                padding: 18px 20px; margin-top: 20px; font: 13.5px/1.7 var(--mono); overflow-x: auto; color: #97a1b6; }
+    .p { color: var(--accent); } .ok { color: var(--green); } .d { color: #59627a; }
+
+    ul.runic { list-style: none; padding: 0; margin-top: 14px; }
+    ul.runic li { padding-left: 22px; position: relative; color: #97a1b6; margin-bottom: 6px; }
+    ul.runic li::before { content: "᛫"; position: absolute; left: 2px; color: var(--accent); }
+
+    .prov { display: flex; gap: 22px; flex-wrap: wrap; font: 14px var(--mono); margin-top: 14px; }
+
+    footer { border-top: 1px solid #1b2231; padding: 24px 0 44px; font: 12.5px var(--mono); color: #59627a; display: flex; gap: 18px; }
+    footer a { color: #7a879f; }
+</style>
+</head>
+<body>
+<nav><div class="wrap nav-inner">
+    <span class="brand"><span class="glyphs">ᚱᚢᚾᛖ</span>rune</span>
+    <div class="nav-links"><a href="index.html">designs</a><a href="../first-contact/">first contact</a><a href="https://github.com/runedeck">github</a></div>
+</div></nav>
+
+<header class="hero wrap">
+    <h1>Your runes, deployed.</h1>
+    <p class="sub">One canonical deck of skills, agents, and rules, compiled for every AI harness.
+       Claude Code, Codex, Gemini, OpenCode: one source of truth, four native dialects.</p>
+    <div class="install"><b>brew install runedeck/tap/rune</b></div>
+</header>
+
+<section><div class="wrap">
+    <div class="sec"><b>§ 01</b> deploy</div>
+    <h2>Three commands to deployed</h2>
+    <p>Stage a selection from a deck, install it, prove it landed.</p>
+    <pre class="shell"><span class="p">$</span> rune add core --source ~/decks/runedeck
+<span class="d">staged rune selection 'core' → .rune</span>
+<span class="p">$</span> rune install
+ <span class="ok">●</span> 137 deployed
+<span class="p">$</span> rune doctor --target .
+ ./.claude/skills/rune <span class="d">(claude)</span>
+   <span class="ok">ok 31</span> · modified 0 · missing 0 · orphan 0</pre>
+</div></section>
+
+<section><div class="wrap">
+    <div class="sec"><b>§ 02</b> one source, every harness</div>
+    <h2>Instructions as a build artifact</h2>
+    <p>Canonical markdown with Agent Skills frontmatter. Provider variants merge at assembly:
+       argument hints for Claude, TOML agents for Codex, remapped tools for Gemini.</p>
+    <div class="prov">
+        <span style="color:var(--hx-claude)">.claude</span>
+        <span style="color:var(--hx-codex)">.codex</span>
+        <span style="color:var(--hx-gemini)">.gemini</span>
+        <span style="color:var(--hx-opencode)">.opencode</span>
+    </div>
+</div></section>
+
+<section><div class="wrap">
+    <div class="sec"><b>§ 03</b> trust</div>
+    <h2>Trust you can audit</h2>
+    <p>Every deployed file carries SLSA provenance back to its source line.</p>
+    <ul class="runic">
+        <li>doctor never overwrites your edits</li>
+        <li>drift shows exactly what moved</li>
+        <li>validation names what it could not check</li>
+    </ul>
+</div></section>
+
+<section><div class="wrap">
+    <div class="sec"><b>§ 04</b> adopt</div>
+    <h2>Adoption with a ceremony</h2>
+    <p>Third-party skills enter through block-by-block review with injection linting.
+       Every block gets a verdict: keep, adapt, or cut. Nothing lands unverdicted.</p>
+</div></section>
+
+<footer><div class="wrap" style="display:flex;gap:18px;">
+    <span>rune · EUPL-1.2</span>
+    <a href="https://github.com/runedeck">github</a>
+    <a href="../first-contact/">first contact</a>
+</div></footer>
+</body>
+</html>

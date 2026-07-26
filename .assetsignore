@@ -1,0 +1,8 @@
+.git
+.gitattributes
+.gitignore
+.assetsignore
+wrangler.jsonc
+README.md
+first-contact/README.md
+LICENSE

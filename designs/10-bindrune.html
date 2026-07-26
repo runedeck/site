@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rune · bindrune emblem</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+    * { box-sizing: border-box; margin: 0; }
+    body { color: var(--text); font: 15px/1.6 var(--sans); -webkit-font-smoothing: antialiased;
+           background: radial-gradient(900px 620px at 50% -8%, #101a30 0%, #0a0f1a 55%, #070b13 100%); }
+    a { color: var(--cyan); text-decoration: none; }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    nav .nav-inner { display: flex; align-items: center; gap: 20px; padding: 18px 0; }
+    .brand { font-weight: 700; font-size: 16px; }
+    .nav-links { margin-left: auto; display: flex; gap: 18px; font-size: 13.5px; color: var(--text-dim); }
+    .nav-links a { color: var(--text-dim); } .nav-links a:hover { color: var(--cyan); }
+
+    .hero { padding: 64px 0 56px; text-align: center; }
+    .emblem { width: 128px; height: 128px; margin: 0 auto 30px; display: block;
+              filter: drop-shadow(0 0 26px rgba(125,207,255,0.35)); }
+    .emblem path { stroke: var(--cyan); stroke-width: 7; stroke-linecap: round; fill: none; }
+    .emblem .shadowstroke { stroke: rgba(125,207,255,0.18); stroke-width: 14; }
+    h1 { font-size: 46px; font-weight: 700; letter-spacing: -0.02em; }
+    .sub { margin: 16px auto 30px; font-size: 17px; color: var(--text-dim); max-width: 540px; }
+    .cta-row { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .install { background: var(--surface); border: 1px solid var(--border-strong); border-radius: 999px;
+               padding: 12px 22px; font: 14px var(--mono); }
+    .install b { color: var(--cyan); font-weight: 400; }
+    .ghost { border: 1px solid var(--border); border-radius: 999px; padding: 12px 22px;
+             font-size: 14px; color: var(--text-dim); }
+
+    pre.shell { background: rgba(18,26,42,0.75); border: 1px solid var(--border); border-radius: 10px;
+                padding: 18px 20px; margin: 44px auto 0; max-width: 640px; text-align: left;
+                font: 13.5px/1.7 var(--mono); overflow-x: auto; color: var(--text-dim); }
+    .p { color: var(--cyan); } .ok { color: var(--green); } .d { color: var(--muted); }
+
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px; padding: 54px 0 30px; }
+    .card { background: rgba(18,26,42,0.6); border: 1px solid var(--border); border-radius: 12px; padding: 22px; text-align: left; }
+    .card .sigil { font-size: 22px; color: var(--cyan); display: block; margin-bottom: 12px;
+                   text-shadow: 0 0 14px rgba(125,207,255,0.4); }
+    .card h3 { font-size: 15.5px; font-weight: 620; margin-bottom: 8px; }
+    .card p { font-size: 13.5px; color: var(--text-dim); }
+
+    .prov { text-align: center; padding: 6px 0 60px; }
+    .prov .label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+                   color: var(--muted); margin-bottom: 14px; }
+    .chips { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+    .chip { border: 1px solid var(--border); border-radius: 999px; padding: 7px 16px; font: 13px var(--mono);
+            background: rgba(18,26,42,0.6); }
+
+    footer { border-top: 1px solid var(--border); padding: 20px 0 34px; font: 12.5px var(--mono);
+             color: var(--muted); display: flex; gap: 18px; justify-content: center; }
+    footer a { color: var(--dim); }
+</style>
+</head>
+<body>
+<nav><div class="wrap nav-inner">
+    <span class="brand">rune</span>
+    <div class="nav-links"><a href="index.html">designs</a><a href="../first-contact/">first contact</a><a href="https://github.com/runedeck">github</a></div>
+</div></nav>
+
+<header class="hero wrap">
+    <svg class="emblem" viewBox="0 0 100 100" role="img" aria-label="bindrune of raido and dagaz">
+        <path class="shadowstroke" d="M50 8 V92 M50 14 L74 32 L50 52 M50 52 L74 76 M50 14 L26 32 L50 52 M50 52 L26 76"/>
+        <path d="M50 8 V92"/>
+        <path d="M50 14 L74 32 L50 52 L74 76"/>
+        <path d="M50 14 L26 32 L50 52 L26 76"/>
+    </svg>
+    <h1>Your runes, deployed.</h1>
+    <p class="sub">One canonical deck of skills, agents, and rules, compiled for every AI harness.
+       Claude Code, Codex, Gemini, OpenCode: one source of truth, four native dialects.</p>
+    <div class="cta-row">
+        <span class="install">$ <b>brew install runedeck/tap/rune</b></span>
+        <a class="ghost" href="../first-contact/">first contact →</a>
+    </div>
+    <pre class="shell"><span class="p">$</span> rune add core --source ~/decks/runedeck
+<span class="d">staged rune selection 'core' → .rune</span>
+<span class="p">$</span> rune install
+ <span class="ok">●</span> 137 deployed
+<span class="p">$</span> rune doctor --target .
+ ./.claude/skills/rune <span class="d">(claude)</span>
+   <span class="ok">ok 31</span> · modified 0 · missing 0 · orphan 0</pre>
+</header>
+
+<section class="wrap cards">
+    <div class="card"><span class="sigil">ᚠ</span>
+        <h3>One source, every harness</h3>
+        <p>Canonical markdown with Agent Skills frontmatter. Provider variants merge at assembly:
+           argument hints for Claude, TOML agents for Codex, remapped tools for Gemini.
+           Your instructions become a build artifact.</p></div>
+    <div class="card"><span class="sigil">ᛏ</span>
+        <h3>Trust you can audit</h3>
+        <p>Every deployed file carries SLSA provenance back to its source line. doctor never
+           overwrites your edits, drift shows exactly what moved, and validation names
+           what it could not check.</p></div>
+    <div class="card"><span class="sigil">ᛟ</span>
+        <h3>Adoption with a ceremony</h3>
+        <p>Third-party skills enter through block-by-block review with injection linting.
+           Every block gets a verdict: keep, adapt, or cut. Nothing lands unverdicted.</p></div>
+</section>
+
+<section class="prov wrap">
+    <div class="label">deploys to</div>
+    <div class="chips">
+        <span class="chip" style="color:var(--hx-claude)">.claude</span>
+        <span class="chip" style="color:var(--hx-codex)">.codex</span>
+        <span class="chip" style="color:var(--hx-gemini)">.gemini</span>
+        <span class="chip" style="color:var(--hx-opencode)">.opencode</span>
+    </div>
+</section>
+
+<footer><div class="wrap" style="display:flex;gap:18px;justify-content:center;">
+    <span>rune · EUPL-1.2</span>
+    <a href="https://github.com/runedeck">github</a>
+    <a href="../first-contact/">first contact</a>
+</div></footer>
+</body>
+</html>

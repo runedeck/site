@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rune · aurora</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+    * { box-sizing: border-box; margin: 0; }
+    body { background: #080c16; color: var(--text); font: 15px/1.6 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    a { color: var(--cyan); text-decoration: none; }
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+    .sky { position: absolute; inset: 0 0 auto 0; height: 640px; overflow: hidden; pointer-events: none; }
+    .blob { position: absolute; width: 620px; height: 620px; border-radius: 50%; filter: blur(110px); opacity: 0.16; }
+    .b1 { background: var(--tn-violet); top: -260px; left: -140px; animation: drift1 19s ease-in-out infinite alternate; }
+    .b2 { background: var(--cyan); top: -200px; right: -160px; animation: drift2 23s ease-in-out infinite alternate; }
+    .b3 { background: var(--tn-green); top: 120px; left: 34%; opacity: 0.09; animation: drift1 29s ease-in-out infinite alternate-reverse; }
+    @keyframes drift1 { to { transform: translate(90px, 60px) scale(1.12); } }
+    @keyframes drift2 { to { transform: translate(-110px, 40px) scale(0.94); } }
+    @media (prefers-reduced-motion: reduce) { .blob { animation: none; } }
+
+    nav { position: relative; z-index: 2; }
+    .nav-inner { display: flex; align-items: center; gap: 20px; padding: 18px 0; }
+    .brand { font-weight: 700; font-size: 16px; }
+    .brand .glyphs { background: linear-gradient(90deg, var(--tn-violet), var(--cyan));
+                     -webkit-background-clip: text; background-clip: text; color: transparent; margin-right: 8px; }
+    .nav-links { margin-left: auto; display: flex; gap: 18px; font-size: 13.5px; }
+    .nav-links a { color: var(--text-dim); } .nav-links a:hover { color: var(--text); }
+
+    .hero { position: relative; z-index: 1; padding: 104px 0 66px; text-align: center; }
+    h1 { font-size: 50px; font-weight: 700; letter-spacing: -0.02em; }
+    h1 .grad { background: linear-gradient(90deg, var(--tn-violet), var(--cyan));
+               -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .sub { margin: 18px auto 30px; font-size: 17px; color: var(--text-dim); max-width: 560px; }
+    .install { display: inline-block; padding: 12px 18px; font: 14px var(--mono);
+               background: rgba(18,26,42,0.55); border: 1px solid rgba(125,207,255,0.25);
+               border-radius: 10px; backdrop-filter: blur(6px); }
+    .install b { color: var(--cyan); font-weight: 400; }
+
+    .glass { position: relative; z-index: 1; background: rgba(18,26,42,0.55); border: 1px solid rgba(62,81,119,0.5);
+             border-radius: 12px; backdrop-filter: blur(8px); }
+    pre.shell { padding: 18px 20px; font: 13.5px/1.7 var(--mono); overflow-x: auto; color: var(--text-dim); }
+    .term { max-width: 680px; margin: 40px auto 0; text-align: left; }
+    .p { color: var(--cyan); } .ok { color: var(--green); } .d { color: var(--muted); }
+
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; padding: 26px 0 40px; }
+    .card { padding: 24px; }
+    .card h3 { font-size: 16px; font-weight: 620; margin-bottom: 8px; }
+    .card h3 i { font-style: normal; margin-right: 8px; }
+    .card p { font-size: 13.5px; color: var(--text-dim); }
+
+    .prov { text-align: center; padding: 6px 0 56px; }
+    .prov .label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 14px; }
+    .chips { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+    .chip { border-radius: 999px; padding: 7px 16px; font: 13px var(--mono); border: 1px solid transparent; }
+
+    footer { border-top: 1px solid rgba(62,81,119,0.4); padding: 20px 0 34px; font: 12.5px var(--mono);
+             color: var(--muted); display: flex; gap: 18px; }
+    footer a { color: var(--dim); }
+</style>
+</head>
+<body>
+<div class="sky"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
+
+<nav><div class="wrap nav-inner">
+    <span class="brand"><span class="glyphs">ᚱᚢᚾᛖ</span>rune</span>
+    <div class="nav-links"><a href="index.html">designs</a><a href="../first-contact/">first contact</a><a href="https://github.com/runedeck">github</a></div>
+</div></nav>
+
+<header class="hero wrap">
+    <h1>Your <span class="grad">runes</span>, deployed.</h1>
+    <p class="sub">One canonical deck of skills, agents, and rules, compiled for every AI harness.
+       Claude Code, Codex, Gemini, OpenCode: one source of truth, four native dialects.</p>
+    <div class="install">$ <b>brew install runedeck/tap/rune</b></div>
+    <div class="glass term"><pre class="shell"><span class="p">$</span> rune add core --source ~/decks/runedeck
+<span class="d">staged rune selection 'core' → .rune</span>
+<span class="p">$</span> rune install
+ <span class="ok">●</span> 137 deployed
+<span class="p">$</span> rune doctor --target .
+ ./.claude/skills/rune <span class="d">(claude)</span>
+   <span class="ok">ok 31</span> · modified 0 · missing 0 · orphan 0</pre></div>
+</header>
+
+<section class="wrap cards">
+    <div class="glass card"><h3><i style="color:var(--cyan)">✶</i>One source, every harness</h3>
+        <p>Canonical markdown with Agent Skills frontmatter. Provider variants merge at assembly:
+           argument hints for Claude, TOML agents for Codex, remapped tools for Gemini.
+           Your instructions become a build artifact.</p></div>
+    <div class="glass card"><h3><i style="color:var(--tn-green)">⚖︎</i>Trust you can audit</h3>
+        <p>Every deployed file carries SLSA provenance back to its source line. doctor never
+           overwrites your edits, drift shows exactly what moved, and validation names
+           what it could not check.</p></div>
+    <div class="glass card"><h3><i style="color:var(--tn-violet)">⚙︎</i>Adoption with a ceremony</h3>
+        <p>Third-party skills enter through block-by-block review with injection linting.
+           Every block gets a verdict: keep, adapt, or cut. Nothing lands unverdicted.</p></div>
+</section>
+
+<section class="prov wrap">
+    <div class="label">deploys to</div>
+    <div class="chips">
+        <span class="chip" style="color:var(--hx-claude); border-color: rgba(208,135,112,0.4)">.claude</span>
+        <span class="chip" style="color:var(--hx-codex); border-color: rgba(68,183,122,0.4)">.codex</span>
+        <span class="chip" style="color:var(--hx-gemini); border-color: rgba(91,141,239,0.4)">.gemini</span>
+        <span class="chip" style="color:var(--hx-opencode); border-color: rgba(180,142,173,0.4)">.opencode</span>
+    </div>
+</section>
+
+<footer class="wrap">
+    <span>rune · EUPL-1.2</span>
+    <a href="https://github.com/runedeck">github</a>
+    <a href="../first-contact/">first contact</a>
+</footer>
+</body>
+</html>
