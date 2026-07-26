@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rune · a field guide to runes</title>
+<meta name="description" content="The vocabulary and mental model of runedeck: runes, decks, variants, validation, adoption, and deployment.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="runedeck">
+<meta property="og:title" content="rune · a field guide to runes">
+<meta property="og:description" content="The vocabulary and mental model of runedeck: runes, decks, variants, validation, adoption, and deployment.">
+<meta property="og:url" content="https://runedeck.ai/guide/">
+<meta property="og:image" content="https://runedeck.ai/shared/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="../shared/favicon.svg">
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+    * { box-sizing: border-box; margin: 0; }
+    body { background: var(--bg); color: var(--text); font: 16px/1.65 var(--sans); -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .wrap { max-width: 700px; margin: 0 auto; padding: 0 24px; }
+
+    nav { border-bottom: 1px solid var(--border); }
+    .nav-inner { display: flex; align-items: center; gap: 20px; padding: 14px 0; }
+    .brand { font-weight: 700; font-size: 16px; color: var(--text); }
+    .brand .glyphs { color: var(--accent); margin-right: 8px; }
+    .nav-links { margin-left: auto; display: flex; gap: 18px; font-size: 13.5px; }
+    .nav-links a { color: var(--text-dim); } .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    header.top { padding: 72px 0 8px; }
+    .eyebrow { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); margin-bottom: 12px; }
+    h1 { font-size: 36px; font-weight: 700; letter-spacing: -0.02em; }
+    .lede { margin: 16px 0 0; font-size: 17px; color: var(--text-dim); }
+
+    section { padding: 34px 0 4px; }
+    h2 { font-size: 22px; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 10px; }
+    h2::before { content: "᛫ "; color: var(--accent); }
+    p { color: var(--text-dim); margin-bottom: 12px; }
+    strong { color: var(--text); font-weight: 620; }
+    code { font-family: var(--mono); font-size: 0.92em; background: var(--surface); border: 1px solid var(--border);
+           border-radius: 4px; padding: 1px 5px; }
+    pre { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+          padding: 16px 18px; margin: 14px 0; font: 13.5px/1.7 var(--mono); overflow-x: auto; color: var(--text-dim); }
+    pre code { background: none; border: 0; padding: 0; }
+    ul { padding-left: 0; list-style: none; }
+    ul li { padding-left: 22px; position: relative; color: var(--text-dim); margin-bottom: 8px; }
+    ul li::before { content: "᛫"; position: absolute; left: 2px; color: var(--accent); }
+
+    dl { margin: 6px 0 0; }
+    dl div { display: grid; grid-template-columns: 130px 1fr; gap: 14px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+    dl div:last-child { border-bottom: 0; }
+    dt { font: 600 14px var(--mono); color: var(--text); }
+    dd { color: var(--text-dim); font-size: 14.5px; }
+
+    .next { margin: 44px 0 0; border: 1px solid var(--border); border-radius: var(--radius);
+            background: var(--surface); padding: 18px 20px; display: flex; align-items: baseline; gap: 12px; }
+    .next .glyph { color: var(--accent); font-size: 20px; }
+
+    footer { border-top: 1px solid var(--border); margin-top: 56px; padding: 20px 0 34px;
+             font: 12.5px var(--mono); color: var(--muted); display: flex; gap: 18px; justify-content: center; }
+    footer a { color: var(--dim); }
+</style>
+</head>
+<body>
+<nav><div class="wrap nav-inner">
+    <a class="brand" href="../"><span class="glyphs">ᚱᚢᚾᛖ</span>rune</a>
+    <div class="nav-links"><a href="../">home</a><a href="../first-contact/">first contact</a><a href="https://github.com/runedeck">github</a></div>
+</div></nav>
+
+<header class="top wrap">
+    <div class="eyebrow">the vocabulary and the mental model</div>
+    <h1>A field guide to runes</h1>
+    <p class="lede">Rune is the name runedeck gives an instruction artifact: a skill, an agent, or a
+       rule, written as portable markdown, owned by you, and compiled for whatever AI harness runs
+       it. <a href="../first-contact/">First contact</a> is the hands-on walkthrough; this page is
+       what the words mean.</p>
+</header>
+
+<section class="wrap">
+    <h2>The deck</h2>
+    <p>A deck is a git repository of runes. It is the canonical source: you version it, review
+       changes to it the way you review code, and everything a harness ever sees is compiled from
+       it in a step called assembly. Runes group into domains (such as <code>core</code>), and
+       casts name reusable selections across them. A project chooses what it wants with
+       <code>rune add</code>, which records the selection in a <code>.rune</code> manifest at the
+       project root.</p>
+</section>
+
+<section class="wrap">
+    <h2>Three kinds of rune</h2>
+    <ul>
+        <li><strong>Skill</strong>: a capability the model loads when the task calls for it. A
+            directory whose entrypoint is <code>SKILL.md</code>, with companion files for depth,
+            scripts it can execute, and assets it can read.</li>
+        <li><strong>Agent</strong>: a role definition a harness can dispatch for a task, with its
+            own prompt and tool grants.</li>
+        <li><strong>Rule</strong>: an always-loaded behavioral constraint. Rules cost tokens in
+            every session, so they stay short.</li>
+    </ul>
+</section>
+
+<section class="wrap">
+    <h2>Anatomy of a skill</h2>
+    <p>The frontmatter carries only portable Agent Skills fields: <code>name</code>,
+       <code>description</code>, <code>license</code>, <code>compatibility</code>,
+       <code>metadata</code>, <code>allowed-tools</code>. Anything tool-specific is banned from the
+       source on purpose; it arrives later, at assembly.</p>
+    <p>The body follows the Stable shell: one H1 whose text equals both the frontmatter name and
+       the directory name, then a fixed H2 vocabulary in order, of which only
+       <code>Instructions</code> is required:</p>
+    <pre><code># skill-name
+## Prerequisites      (optional, flat)
+## Constraints        (optional)
+## Instructions       (required)
+## Verification       (optional)
+## Troubleshooting    (optional)
+## References         (optional, flat)</code></pre>
+    <p>Task-specific H3 headings live under <code>Constraints</code>, <code>Instructions</code>,
+       <code>Verification</code>, and <code>Troubleshooting</code>; nothing goes deeper than H3.
+       More than four H3s under <code>Instructions</code> is the signal to move detail into
+       companion files. The point is predictable navigation: every skill opens the same way, for
+       readers and for machines.</p>
+</section>
+
+<section class="wrap">
+    <h2>Variants and qualifiers</h2>
+    <p>A qualifier is a directory inside a rune: <code>user/</code>, a provider like
+       <code>claude/</code>, or a model nested beneath its provider like
+       <code>claude/claude-opus-4/</code>. A variant is the file inside it that overrides the base
+       file of the same name. At assembly, one variant is resolved (<code>user/</code> wins, then
+       the provider's model directory, then the provider) and merged: its frontmatter keys replace
+       the base keys outright, and its body joins the base body according to its <code>mode</code>
+       (append, prepend, or replace). This is how a Claude deployment gains
+       <code>argument-hint</code> while the canonical source stays clean.</p>
+</section>
+
+<section class="wrap">
+    <h2>Validation</h2>
+    <p>Two contracts, two checkers, told here for skills. A skill's frontmatter is validated
+       against a JSON Schema that rejects unknown fields; agents and rules carry lighter
+       frontmatter checks of their own. Body structure is validated against an
+       <code>.mdschema</code>: the standalone <code>mdschema</code> binary enforces the full
+       Stable shell (section order, unexpected sections, flat sections, uniqueness), while rune's
+       built-in fallback checks required sections, heading depth, and level continuity, and says
+       plainly what it could not check. Three checks are always rune's own: the identity check
+       (H1, name, directory must agree), the instruction-breadth warning, and a ban on markdown
+       tables in any rune, because models read labeled lists better than tables.</p>
+</section>
+
+<section class="wrap">
+    <h2>Adoption</h2>
+    <p>Two speeds for bringing in someone else's work. <code>rune import</code> records provenance
+       and lands the artifact without review. <code>rune adopt</code> is the review flow: the
+       artifact is split into blocks, an injection lint flags anything instruction-shaped (override
+       phrasing, tool-call patterns, encoded content, external URLs), and every block requires a
+       verdict, keep, adapt, or cut, before <code>finalize</code> will seal the record.
+       <code>rune adopt doctor</code> later verifies the sealed record three ways: the record's
+       digest, the file's digest, and the digest in its provenance sidecar, covered next, must all
+       agree.</p>
+</section>
+
+<section class="wrap">
+    <h2>Deployment</h2>
+    <p><code>rune add</code> stages a selection, <code>rune install</code> assembles and deploys
+       it, <code>rune doctor</code> proves what landed. Deployed skills, agents, and rules carry a
+       provenance sidecar tracing each file back to its source. <code>doctor</code> never
+       overwrites an edit you made in place; overwriting takes a deliberate
+       <code>rune install --force</code>. <code>rune drift</code> compares a deployment against
+       its assembled baseline, or your source against the upstream it came from, with frontmatter
+       and body reported separately. Providers are configuration: a target directory plus a
+       transform list, which is why one deck can reach a harness that does not exist yet.</p>
+</section>
+
+<section class="wrap">
+    <h2>Glossary</h2>
+    <dl>
+        <div><dt>rune</dt><dd>one instruction artifact: a skill, agent, or rule.</dd></div>
+        <div><dt>deck</dt><dd>the git repository of runes; the canonical source.</dd></div>
+        <div><dt>domain</dt><dd>a themed group of runes inside a deck.</dd></div>
+        <div><dt>cast</dt><dd>a named, reusable selection of runes.</dd></div>
+        <div><dt>harness</dt><dd>the AI tool that consumes deployed runes (also called a provider).</dd></div>
+        <div><dt>qualifier</dt><dd>a directory holding overrides for one provider, model, or user.</dd></div>
+        <div><dt>variant</dt><dd>the overriding file inside a qualifier.</dd></div>
+        <div><dt>assembly</dt><dd>the compile step: variants merged, frontmatter filtered, transforms applied, output per provider.</dd></div>
+        <div><dt>sidecar</dt><dd>the per-file provenance record deployed beside a rune, tracing it to its source.</dd></div>
+        <div><dt>Stable shell</dt><dd>the fixed heading vocabulary every skill body follows.</dd></div>
+        <div><dt>manifest</dt><dd>the <code>.rune</code> file recording what a project selected, and the <code>.manifest</code> files recording what was deployed.</dd></div>
+    </dl>
+    <div class="next"><span class="glyph">ᚲ</span>
+        <p style="margin:0">Ready for the hands-on version? <a href="../first-contact/">First contact</a>
+           walks the same ground with a terminal open.</p></div>
+</section>
+
+<footer>
+    <span>rune · EUPL-1.2</span>
+    <a href="https://github.com/runedeck">github</a>
+    <a href="../">home</a>
+</footer>
+</body>
+</html>
