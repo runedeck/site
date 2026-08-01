@@ -1,23 +1,15 @@
-area:pages:
-    - changed-files:
-          - any-glob-to-any-file: ["index.html", "guide/**", "first-contact/**"]
-
-area:designs:
-    - changed-files:
-          - any-glob-to-any-file: "designs/**"
-
-area:shared:
-    - changed-files:
-          - any-glob-to-any-file: "shared/**"
-
 area:docs:
     - changed-files:
-          - any-glob-to-any-file: ["README.md", "**/*.md"]
+          - any-glob-to-any-file: ["docs/**", "README.md", "*.md"]
 
 area:workflows:
     - changed-files:
           - any-glob-to-any-file: ".github/workflows/**"
 
-area:deploy:
+area:hooks:
     - changed-files:
-          - any-glob-to-any-file: ["wrangler.jsonc", ".assetsignore"]
+          - any-glob-to-any-file: ".githooks/**"
+
+area:schemas:
+    - changed-files:
+          - any-glob-to-any-file: ["schemas/**", "**/*.mdschema"]
