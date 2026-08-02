@@ -3,7 +3,9 @@ name: Review Correctness
 # Thin caller: the lane's body lives in runedeck/seer. The caller owns
 # the triggers, the concurrency, and the permissions; only review-label
 # events and new pushes may cancel an active run, so an unrelated label
-# never kills a billed review mid-flight.
+# never kills a billed review mid-flight. Round-end label consumption in
+# the lane rides the workflow token, whose removals emit no events, so a
+# clean round never re-enters here.
 on:
     pull_request:
         types: [opened, ready_for_review, reopened, synchronize, labeled, unlabeled]
@@ -22,6 +24,7 @@ concurrency:
 
 jobs:
     review:
+        if: github.event.pull_request.draft == false
         uses: runedeck/seer/.github/workflows/review-correctness.yaml@main
         secrets:
             RUNESEER_APP_ID: ${{ secrets.RUNESEER_APP_ID }}
@@ -29,15 +32,24 @@ jobs:
             CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
 
     # Mirrors the called lane's result under the stable check context the
-    # rulesets and the canon name.
+    # rulesets require. Fail-closed: a head the lane did not judge reports
+    # failure rather than skipping, because a skipped check satisfies a
+    # required status check and would open a merge window before the
+    # adjudication lands. The lane's prose-only stand-down concludes success
+    # in-job, so it reports green here. Drafts skip the mirror: a draft
+    # cannot merge, and its iteration stays quiet.
     review-context:
         name: review/correctness
         needs: review
-        if: always() && needs.review.result != 'skipped'
+        if: always() && github.event.pull_request.draft == false
         runs-on: ubuntu-latest
         timeout-minutes: 2
         steps:
             - run: |
                   [ "${{ needs.review.result }}" = "success" ] && exit 0
-                  echo "the lane concluded: ${{ needs.review.result }}"
+                  if [ "${{ needs.review.result }}" = "skipped" ]; then
+                      echo "no verdict on this head; the funnel summons one, or re-apply the review label"
+                  else
+                      echo "the lane concluded: ${{ needs.review.result }}"
+                  fi
                   exit 1
