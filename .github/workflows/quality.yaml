@@ -27,9 +27,6 @@ jobs:
                   # The prek hooks execute code from the checked-out tree, which
                   # must never find a usable token in the git config.
                   persist-credentials: false
-                  # The prek hooks execute code from the checked-out tree, which
-                  # must never find a usable token in the git config.
-                  persist-credentials: false
 
             # Third-party actions must be pinned to a full commit SHA;
             # first-party paths (./) and runedeck/* refs are exempt.
@@ -116,6 +113,7 @@ jobs:
                   # comment test so an indented comment is never read as a path.
                   while IFS= read -r raw_entry || [ -n "$raw_entry" ]; do
                       entry=${raw_entry#"${raw_entry%%[![:space:]]*}"}
+                      entry=${entry%"${entry##*[![:space:]]}"}
                       case "$entry" in ''|'#'*) continue ;; esac
                       printf '%s\n' "$local_entries" | grep -qxF "$entry" && continue
                       pattern=$(printf '%s' "$entry" | sed 's/[][\.*^$+?(){}|\/]/\\&/g')
@@ -129,6 +127,7 @@ jobs:
                   fi
                   while IFS= read -r raw_file || [ -n "$raw_file" ]; do
                       file=${raw_file#"${raw_file%%[![:space:]]*}"}
+                      file=${file%"${file##*[![:space:]]}"}
                       case "$file" in ''|'#'*) continue ;; esac
                       if [ ! -f "$file" ]; then
                           drifted="$drifted $file(missing)"
