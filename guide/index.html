@@ -1,200 +1,2238 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>rune · a field guide to runes</title>
-<meta name="description" content="The vocabulary and mental model of runedeck: runes, decks, variants, validation, adoption, and deployment.">
-<meta property="og:type" content="article">
-<meta property="og:site_name" content="runedeck">
-<meta property="og:title" content="rune · a field guide to runes">
-<meta property="og:description" content="The vocabulary and mental model of runedeck: runes, decks, variants, validation, adoption, and deployment.">
-<meta property="og:url" content="https://runedeck.ai/guide/">
-<meta property="og:image" content="https://runedeck.ai/shared/og.png">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="icon" type="image/svg+xml" href="../shared/favicon.svg">
-<link rel="stylesheet" href="../shared/tokens.css">
-<style>
-    * { box-sizing: border-box; margin: 0; }
-    body { background: var(--bg); color: var(--text); font: 16px/1.65 var(--sans); -webkit-font-smoothing: antialiased; }
-    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
-    .wrap { max-width: 700px; margin: 0 auto; padding: 0 24px; }
-
-    nav { border-bottom: 1px solid var(--border); }
-    .nav-inner { display: flex; align-items: center; gap: 20px; padding: 14px 0; }
-    .brand { font-weight: 700; font-size: 16px; color: var(--text); }
-    .brand .glyphs { color: var(--accent); margin-right: 8px; }
-    .nav-links { margin-left: auto; display: flex; gap: 18px; font-size: 13.5px; }
-    .nav-links a { color: var(--text-dim); } .nav-links a:hover { color: var(--text); text-decoration: none; }
-
-    header.top { padding: 72px 0 8px; }
-    .eyebrow { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); margin-bottom: 12px; }
-    h1 { font-size: 36px; font-weight: 700; letter-spacing: -0.02em; }
-    .lede { margin: 16px 0 0; font-size: 17px; color: var(--text-dim); }
-
-    section { padding: 34px 0 4px; }
-    h2 { font-size: 22px; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 10px; }
-    h2::before { content: "᛫ "; color: var(--accent); }
-    p { color: var(--text-dim); margin-bottom: 12px; }
-    strong { color: var(--text); font-weight: 620; }
-    code { font-family: var(--mono); font-size: 0.92em; background: var(--surface); border: 1px solid var(--border);
-           border-radius: 4px; padding: 1px 5px; }
-    pre { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
-          padding: 16px 18px; margin: 14px 0; font: 13.5px/1.7 var(--mono); overflow-x: auto; color: var(--text-dim); }
-    pre code { background: none; border: 0; padding: 0; }
-    ul { padding-left: 0; list-style: none; }
-    ul li { padding-left: 22px; position: relative; color: var(--text-dim); margin-bottom: 8px; }
-    ul li::before { content: "᛫"; position: absolute; left: 2px; color: var(--accent); }
-
-    dl { margin: 6px 0 0; }
-    dl div { display: grid; grid-template-columns: 130px 1fr; gap: 14px; padding: 9px 0; border-bottom: 1px solid var(--border); }
-    dl div:last-child { border-bottom: 0; }
-    dt { font: 600 14px var(--mono); color: var(--text); }
-    dd { color: var(--text-dim); font-size: 14.5px; }
-
-    .next { margin: 44px 0 0; border: 1px solid var(--border); border-radius: var(--radius);
-            background: var(--surface); padding: 18px 20px; display: flex; align-items: baseline; gap: 12px; }
-    .next .glyph { color: var(--accent); font-size: 20px; }
-
-    footer { border-top: 1px solid var(--border); margin-top: 56px; padding: 20px 0 34px;
-             font: 12.5px var(--mono); color: var(--muted); display: flex; gap: 18px; justify-content: center; }
-    footer a { color: var(--dim); }
-</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rune Deck: a field guide</title>
 </head>
 <body>
-<nav><div class="wrap nav-inner">
-    <a class="brand" href="../"><span class="glyphs">ᚱᚢᚾᛖ</span>rune</a>
-    <div class="nav-links"><a href="../">home</a><a href="../first-contact/">first contact</a><a href="https://github.com/runedeck">github</a></div>
-</div></nav>
 
-<header class="top wrap">
-    <div class="eyebrow">the vocabulary and the mental model</div>
-    <h1>A field guide to runes</h1>
-    <p class="lede">Rune is the name runedeck gives an instruction artifact: a skill, an agent, or a
-       rule, written as portable markdown, owned by you, and compiled for whatever AI harness runs
-       it. <a href="../first-contact/">First contact</a> is the hands-on walkthrough; this page is
-       what the words mean.</p>
-</header>
+<style>
+    :root {
+        --ground: #e9eae4;
+        --surface: #f3f4ef;
+        --recess: #dfe1d9;
+        --ink: #1b2023;
+        --ink-soft: #3c443f;
+        --muted: #67716c;
+        --rule: #c8ccc2;
+        --rule-soft: #d8dbd2;
+        --accent: #186158;
+        --accent-soft: #e2ece8;
+        --sigil: #a4402c;
+        --sigil-soft: #f0e2dd;
 
-<section class="wrap">
-    <h2>The deck</h2>
-    <p>A deck is a git repository of runes. It is the canonical source: you version it, review
-       changes to it the way you review code, and everything a harness ever sees is compiled from
-       it in a step called assembly. Runes group into domains (such as <code>core</code>), and
-       casts name reusable selections across them. A project chooses what it wants with
-       <code>rune add</code>, which records the selection in a <code>.rune</code> manifest at the
-       project root.</p>
-</section>
+        --display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+        --body: Optima, "Optima nova", Candara, "Gill Sans MT", "Gill Sans", "Segoe UI", system-ui, sans-serif;
+        --data: "SF Mono", "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
 
-<section class="wrap">
-    <h2>Three kinds of rune</h2>
-    <ul>
-        <li><strong>Skill</strong>: a capability the model loads when the task calls for it. A
-            directory whose entrypoint is <code>SKILL.md</code>, with companion files for depth,
-            scripts it can execute, and assets it can read.</li>
-        <li><strong>Agent</strong>: a role definition a harness can dispatch for a task, with its
-            own prompt and tool grants.</li>
-        <li><strong>Rule</strong>: an always-loaded behavioral constraint. Rules cost tokens in
-            every session, so they stay short.</li>
-    </ul>
-</section>
+        --step: 0.75rem;
+    }
 
-<section class="wrap">
-    <h2>Anatomy of a skill</h2>
-    <p>The frontmatter carries only portable Agent Skills fields: <code>name</code>,
-       <code>description</code>, <code>license</code>, <code>compatibility</code>,
-       <code>metadata</code>, <code>allowed-tools</code>. Anything tool-specific is banned from the
-       source on purpose; it arrives later, at assembly.</p>
-    <p>The body follows the Stable shell: one H1 whose text equals both the frontmatter name and
-       the directory name, then a fixed H2 vocabulary in order, of which only
-       <code>Instructions</code> is required:</p>
-    <pre><code># skill-name
-## Prerequisites      (optional, flat)
-## Constraints        (optional)
-## Instructions       (required)
-## Verification       (optional)
-## Troubleshooting    (optional)
-## References         (optional, flat)</code></pre>
-    <p>Task-specific H3 headings live under <code>Constraints</code>, <code>Instructions</code>,
-       <code>Verification</code>, and <code>Troubleshooting</code>; nothing goes deeper than H3.
-       More than four H3s under <code>Instructions</code> is the signal to move detail into
-       companion files. The point is predictable navigation: every skill opens the same way, for
-       readers and for machines.</p>
-</section>
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --ground: #15181a;
+            --surface: #1d2124;
+            --recess: #101314;
+            --ink: #e3e7e2;
+            --ink-soft: #c2c9c3;
+            --muted: #939d97;
+            --rule: #2f3538;
+            --rule-soft: #262b2e;
+            --accent: #6ac6b3;
+            --accent-soft: #1b2e2c;
+            --sigil: #e0785d;
+            --sigil-soft: #2c211e;
+        }
+    }
 
-<section class="wrap">
-    <h2>Variants and qualifiers</h2>
-    <p>A qualifier is a directory inside a rune: <code>user/</code>, a provider like
-       <code>claude/</code>, or a model nested beneath its provider like
-       <code>claude/claude-opus-4/</code>. A variant is the file inside it that overrides the base
-       file of the same name. At assembly, one variant is resolved (<code>user/</code> wins, then
-       the provider's model directory, then the provider) and merged: its frontmatter keys replace
-       the base keys outright, and its body joins the base body according to its <code>mode</code>
-       (append, prepend, or replace). This is how a Claude deployment gains
-       <code>argument-hint</code> while the canonical source stays clean.</p>
-</section>
+    :root[data-theme="dark"] {
+        --ground: #15181a;
+        --surface: #1d2124;
+        --recess: #101314;
+        --ink: #e3e7e2;
+        --ink-soft: #c2c9c3;
+        --muted: #939d97;
+        --rule: #2f3538;
+        --rule-soft: #262b2e;
+        --accent: #6ac6b3;
+        --accent-soft: #1b2e2c;
+        --sigil: #e0785d;
+        --sigil-soft: #2c211e;
+    }
 
-<section class="wrap">
-    <h2>Validation</h2>
-    <p>Two contracts, two checkers, told here for skills. A skill's frontmatter is validated
-       against a JSON Schema that rejects unknown fields; agents and rules carry lighter
-       frontmatter checks of their own. Body structure is validated against an
-       <code>.mdschema</code>: the standalone <code>mdschema</code> binary enforces the full
-       Stable shell (section order, unexpected sections, flat sections, uniqueness), while rune's
-       built-in fallback checks required sections, heading depth, and level continuity, and says
-       plainly what it could not check. Three checks are always rune's own: the identity check
-       (H1, name, directory must agree), the instruction-breadth warning, and a ban on markdown
-       tables in any rune, because models read labeled lists better than tables.</p>
-</section>
+    :root[data-theme="light"] {
+        --ground: #e9eae4;
+        --surface: #f3f4ef;
+        --recess: #dfe1d9;
+        --ink: #1b2023;
+        --ink-soft: #3c443f;
+        --muted: #67716c;
+        --rule: #c8ccc2;
+        --rule-soft: #d8dbd2;
+        --accent: #186158;
+        --accent-soft: #e2ece8;
+        --sigil: #a4402c;
+        --sigil-soft: #f0e2dd;
+    }
 
-<section class="wrap">
-    <h2>Adoption</h2>
-    <p>Two speeds for bringing in someone else's work. <code>rune import</code> records provenance
-       and lands the artifact without review. <code>rune adopt</code> is the review flow: the
-       artifact is split into blocks, an injection lint flags anything instruction-shaped (override
-       phrasing, tool-call patterns, encoded content, external URLs), and every block requires a
-       verdict, keep, adapt, or cut, before <code>finalize</code> will seal the record.
-       <code>rune adopt doctor</code> later verifies the sealed record three ways: the record's
-       digest, the file's digest, and the digest in its provenance sidecar, covered next, must all
-       agree.</p>
-</section>
+    * { box-sizing: border-box; }
 
-<section class="wrap">
-    <h2>Deployment</h2>
-    <p><code>rune add</code> stages a selection, <code>rune install</code> assembles and deploys
-       it, <code>rune doctor</code> proves what landed. Deployed skills, agents, and rules carry a
-       provenance sidecar tracing each file back to its source. <code>doctor</code> never
-       overwrites an edit you made in place; overwriting takes a deliberate
-       <code>rune install --force</code>. <code>rune drift</code> compares a deployment against
-       its assembled baseline, or your source against the upstream it came from, with frontmatter
-       and body reported separately. Providers are configuration: a target directory plus a
-       transform list, which is why one deck can reach a harness that does not exist yet.</p>
-</section>
+    body {
+        margin: 0;
+        background: var(--ground);
+        color: var(--ink);
+        font-family: var(--body);
+        font-size: 1.0625rem;
+        line-height: 1.62;
+        -webkit-font-smoothing: antialiased;
+    }
 
-<section class="wrap">
-    <h2>Glossary</h2>
-    <dl>
-        <div><dt>rune</dt><dd>one instruction artifact: a skill, agent, or rule.</dd></div>
-        <div><dt>deck</dt><dd>the git repository of runes; the canonical source.</dd></div>
-        <div><dt>domain</dt><dd>a themed group of runes inside a deck.</dd></div>
-        <div><dt>cast</dt><dd>a named, reusable selection of runes.</dd></div>
-        <div><dt>harness</dt><dd>the AI tool that consumes deployed runes (also called a provider).</dd></div>
-        <div><dt>qualifier</dt><dd>a directory holding overrides for one provider, model, or user.</dd></div>
-        <div><dt>variant</dt><dd>the overriding file inside a qualifier.</dd></div>
-        <div><dt>assembly</dt><dd>the compile step: variants merged, frontmatter filtered, transforms applied, output per provider.</dd></div>
-        <div><dt>sidecar</dt><dd>the per-file provenance record deployed beside a rune, tracing it to its source.</dd></div>
-        <div><dt>Stable shell</dt><dd>the fixed heading vocabulary every skill body follows.</dd></div>
-        <div><dt>manifest</dt><dd>the <code>.rune</code> file recording what a project selected, and the <code>.manifest</code> files recording what was deployed.</dd></div>
-    </dl>
-    <div class="next"><span class="glyph">ᚲ</span>
-        <p style="margin:0">Ready for the hands-on version? <a href="../first-contact/">First contact</a>
-           walks the same ground with a terminal open.</p></div>
-</section>
+    .page {
+        max-width: 74rem;
+        margin: 0 auto;
+        padding: 2rem 1.25rem 6rem;
+        display: grid;
+        gap: 3rem;
+        grid-template-columns: minmax(0, 1fr);
+    }
 
-<footer>
-    <span>rune · EUPL-1.2</span>
-    <a href="https://github.com/runedeck">github</a>
-    <a href="../">home</a>
-</footer>
+    @media (min-width: 62rem) {
+        .page {
+            grid-template-columns: 12.5rem minmax(0, 1fr);
+            gap: 4rem;
+            padding: 3.5rem 2rem 8rem;
+        }
+    }
+
+    /* ---------- masthead ---------- */
+
+    .masthead {
+        grid-column: 1 / -1;
+        border-bottom: 1px solid var(--rule);
+        padding-bottom: 2.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .wordmark {
+        display: flex;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 0.9rem;
+    }
+
+    .wordmark .glyphs {
+        font-family: var(--display);
+        font-size: clamp(2.5rem, 7vw, 4.25rem);
+        letter-spacing: 0.22em;
+        color: var(--sigil);
+        line-height: 1;
+    }
+
+    .wordmark .name {
+        font-family: var(--display);
+        font-size: clamp(1.75rem, 4vw, 2.5rem);
+        letter-spacing: 0.01em;
+        line-height: 1;
+    }
+
+    .wordmark .tag {
+        font-family: var(--data);
+        font-size: 0.8125rem;
+        color: var(--muted);
+        letter-spacing: 0.02em;
+    }
+
+    .thesis {
+        font-family: var(--display);
+        font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+        line-height: 1.42;
+        max-width: 44ch;
+        text-wrap: balance;
+        margin: 0;
+        color: var(--ink);
+    }
+
+    .facts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0 2.25rem;
+        font-family: var(--data);
+        font-size: 0.78125rem;
+        color: var(--muted);
+        letter-spacing: 0.01em;
+    }
+
+    .facts span strong {
+        color: var(--ink-soft);
+        font-weight: 600;
+    }
+
+    /* ---------- rail ---------- */
+
+    .rail {
+        font-family: var(--data);
+        font-size: 0.75rem;
+        letter-spacing: 0.02em;
+        position: relative;
+    }
+
+    .rail-marker {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 2px;
+        height: 0;
+        background: var(--sigil);
+        opacity: 0;
+        transform: translateY(0);
+        transition: transform 0.24s cubic-bezier(0.4, 0, 0.2, 1),
+                    height 0.24s cubic-bezier(0.4, 0, 0.2, 1),
+                    opacity 0.18s ease;
+        pointer-events: none;
+    }
+
+    @media (min-width: 62rem) {
+        .rail {
+            position: sticky;
+            top: 3.5rem;
+            align-self: start;
+            max-height: calc(100vh - 7rem);
+            overflow-y: auto;
+        }
+    }
+
+    .rail-title {
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+        font-size: 0.6875rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--rule);
+        margin-bottom: 0.75rem;
+    }
+
+    .rail ol {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+    }
+
+    .rail a {
+        display: block;
+        padding: 0.28rem 0 0.28rem 0.6rem;
+        color: var(--muted);
+        text-decoration: none;
+        border-left: 2px solid transparent;
+        transition: color 0.12s ease, border-color 0.12s ease;
+    }
+
+    .rail a:hover { color: var(--ink); }
+
+    .rail a[aria-current="true"] { color: var(--ink); }
+
+    /* Without JS the per-link border is the marker; with JS the sliding bar
+       takes over and the border stays out of its way. */
+    .rail:not([data-marker]) a[aria-current="true"] { border-left-color: var(--sigil); }
+
+    /* ---------- main flow ---------- */
+
+    main {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4rem;
+    }
+
+    section {
+        display: flex;
+        flex-direction: column;
+        gap: 1.15rem;
+        scroll-margin-top: 2.5rem;
+    }
+
+    .sect-head {
+        display: flex;
+        align-items: baseline;
+        gap: 0.85rem;
+        border-bottom: 1px solid var(--rule);
+        padding-bottom: 0.6rem;
+    }
+
+    .sect-head .rune {
+        font-family: var(--display);
+        color: var(--sigil);
+        font-size: 1.2rem;
+        line-height: 1;
+        flex: none;
+    }
+
+    h2 {
+        font-family: var(--display);
+        font-size: clamp(1.4rem, 2.6vw, 1.85rem);
+        font-weight: 600;
+        margin: 0;
+        letter-spacing: 0.005em;
+        text-wrap: balance;
+    }
+
+    h3 {
+        font-family: var(--body);
+        font-size: 0.8125rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.11em;
+        color: var(--accent);
+        margin: 1rem 0 -0.35rem;
+    }
+
+    p {
+        margin: 0;
+        max-width: 68ch;
+        color: var(--ink-soft);
+    }
+
+    p strong { color: var(--ink); font-weight: 600; }
+
+    a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+
+    a:focus-visible,
+    .rail a:focus-visible {
+        outline: 2px solid var(--sigil);
+        outline-offset: 2px;
+    }
+
+    code, kbd {
+        font-family: var(--data);
+        font-size: 0.86em;
+        background: var(--recess);
+        padding: 0.08em 0.32em;
+        border-radius: 2px;
+        color: var(--ink);
+    }
+
+    ul.plain {
+        margin: 0;
+        padding-left: 1.15rem;
+        max-width: 68ch;
+        color: var(--ink-soft);
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    ul.plain::marker { color: var(--muted); }
+
+    /* ---------- code blocks ---------- */
+
+    .code {
+        background: var(--surface);
+        border: 1px solid var(--rule-soft);
+        border-left: 2px solid var(--accent);
+        overflow-x: auto;
+    }
+
+    .code pre {
+        margin: 0;
+        padding: 0.95rem 1.1rem;
+        font-family: var(--data);
+        font-size: 0.8125rem;
+        line-height: 1.62;
+        color: var(--ink);
+    }
+
+    .code pre code {
+        background: none;
+        padding: 0;
+        font-size: inherit;
+    }
+
+    .code .c { color: var(--muted); }
+    .code .k { color: var(--sigil); }
+
+    .caption {
+        font-family: var(--data);
+        font-size: 0.71875rem;
+        color: var(--muted);
+        letter-spacing: 0.02em;
+    }
+
+    /* ---------- tables ---------- */
+
+    .scroller { overflow-x: auto; }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 30rem;
+        font-size: 0.9375rem;
+        font-variant-numeric: tabular-nums;
+    }
+
+    th {
+        text-align: left;
+        font-family: var(--body);
+        font-size: 0.6875rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.11em;
+        color: var(--muted);
+        padding: 0 0.9rem 0.5rem 0;
+        border-bottom: 1px solid var(--rule);
+        vertical-align: bottom;
+    }
+
+    td {
+        padding: 0.62rem 0.9rem 0.62rem 0;
+        border-bottom: 1px solid var(--rule-soft);
+        vertical-align: top;
+        color: var(--ink-soft);
+    }
+
+    td:first-child { color: var(--ink); }
+
+    th:last-child, td:last-child { padding-right: 0; }
+
+    table code { background: none; padding: 0; color: var(--ink); }
+
+    td.mono, th.mono { font-family: var(--data); font-size: 0.8125rem; }
+
+    /* ---------- pills ---------- */
+
+    .pill {
+        display: inline-block;
+        font-family: var(--data);
+        font-size: 0.6875rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        padding: 0.12rem 0.42rem;
+        border: 1px solid var(--rule);
+        border-radius: 2px;
+        color: var(--muted);
+        white-space: nowrap;
+    }
+
+    .pill.live { color: var(--accent); border-color: var(--accent); }
+    .pill.hold { color: var(--sigil); border-color: var(--sigil); }
+
+    /* ---------- field note ---------- */
+
+    .note {
+        border-left: 2px solid var(--sigil);
+        background: var(--sigil-soft);
+        padding: 0.85rem 1.1rem;
+        max-width: 70ch;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .note .label {
+        font-family: var(--body);
+        font-size: 0.6875rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--sigil);
+    }
+
+    .note p { max-width: none; color: var(--ink-soft); font-size: 0.9375rem; }
+    .note ul.plain { font-size: 0.9375rem; }
+
+    /* ---------- pipeline ---------- */
+
+    .pipe-wrap { overflow-x: auto; padding-bottom: 0.25rem; }
+
+    .pipe {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(11rem, 1fr));
+        gap: 0;
+        min-width: 38rem;
+        align-items: stretch;
+    }
+
+    .stage {
+        border: 1px solid var(--rule);
+        border-right: none;
+        padding: 0.95rem 1rem 1.1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+        background: var(--surface);
+        position: relative;
+    }
+
+    .stage:last-child { border-right: 1px solid var(--rule); }
+
+    .stage-name {
+        font-family: var(--body);
+        font-size: 0.6875rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--accent);
+    }
+
+    .stage ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.28rem;
+        font-family: var(--data);
+        font-size: 0.75rem;
+        color: var(--ink-soft);
+    }
+
+    .stage .op {
+        font-family: var(--body);
+        font-size: 0.8125rem;
+        color: var(--muted);
+        border-top: 1px dashed var(--rule);
+        padding-top: 0.5rem;
+        margin-top: auto;
+    }
+
+    .stage + .stage::before {
+        content: "›";
+        position: absolute;
+        left: -0.44rem;
+        top: 0.72rem;
+        font-family: var(--display);
+        font-size: 1.1rem;
+        line-height: 1;
+        color: var(--sigil);
+        background: var(--ground);
+        padding: 0 0.1rem;
+    }
+
+    /* ---------- two-up ---------- */
+
+    .duo {
+        display: grid;
+        gap: 1.5rem;
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    @media (min-width: 48rem) {
+        .duo { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
+    }
+
+    .duo > div { display: flex; flex-direction: column; gap: 0.6rem; min-width: 0; }
+
+    footer {
+        grid-column: 1 / -1;
+        border-top: 1px solid var(--rule);
+        padding-top: 1.5rem;
+        font-family: var(--data);
+        font-size: 0.75rem;
+        color: var(--muted);
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    /* ---------- part divider ---------- */
+
+    .part {
+        grid-column: 1 / -1;
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        padding-top: 1rem;
+    }
+
+    .part::before, .part::after {
+        content: "";
+        height: 1px;
+        background: var(--rule);
+        flex: 1;
+    }
+
+    .part span {
+        font-family: var(--body);
+        font-size: 0.6875rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--sigil);
+        white-space: nowrap;
+    }
+
+    /* ---------- tutorials ---------- */
+
+    .tut {
+        border-top: 1px solid var(--rule);
+        padding-top: 1.35rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+        scroll-margin-top: 2.5rem;
+    }
+
+    .tut-head { display: flex; flex-direction: column; gap: 0.4rem; }
+
+    .tut-eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-family: var(--data);
+        font-size: 0.6875rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+    }
+
+    .tut-eyebrow b {
+        font-family: var(--display);
+        font-size: 1rem;
+        color: var(--sigil);
+        letter-spacing: 0;
+    }
+
+    .tut h3 {
+        font-family: var(--display);
+        font-size: 1.2rem;
+        font-weight: 600;
+        text-transform: none;
+        letter-spacing: 0;
+        color: var(--ink);
+        margin: 0;
+    }
+
+    .goal {
+        font-size: 0.9375rem;
+        color: var(--ink-soft);
+        max-width: 70ch;
+    }
+
+    .goal b {
+        font-family: var(--body);
+        font-size: 0.6875rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--accent);
+        margin-right: 0.4rem;
+    }
+
+    ol.steps {
+        list-style: none;
+        counter-reset: step;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+    }
+
+    ol.steps > li {
+        counter-increment: step;
+        display: grid;
+        grid-template-columns: 1.9rem minmax(0, 1fr);
+        gap: 0 0.6rem;
+        align-items: start;
+    }
+
+    ol.steps > li::before {
+        content: counter(step);
+        font-family: var(--data);
+        font-size: 0.75rem;
+        color: var(--sigil);
+        border: 1px solid var(--rule);
+        border-radius: 50%;
+        width: 1.5rem;
+        height: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 0.1rem;
+    }
+
+    ol.steps > li > * { grid-column: 2; }
+
+    .step-body { display: flex; flex-direction: column; gap: 0.55rem; min-width: 0; }
+
+    .step-body p { font-size: 0.9375rem; max-width: 66ch; }
+
+    .expect {
+        font-size: 0.875rem;
+        color: var(--muted);
+        border-left: 2px solid var(--rule);
+        padding-left: 0.7rem;
+        max-width: 66ch;
+    }
+
+    .expect b {
+        color: var(--accent);
+        font-weight: 700;
+        font-size: 0.6875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-right: 0.35rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        * { transition: none !important; scroll-behavior: auto !important; }
+    }
+
+    html { scroll-behavior: smooth; }
+</style>
+
+<div class="page">
+
+    <header class="masthead">
+        <div class="wordmark">
+            <span class="glyphs" aria-hidden="true">ᚱᚢᚾᛖ</span>
+            <span class="name">Rune Deck</span>
+            <span class="tag">rune · your runes, deployed</span>
+        </div>
+        <p class="thesis">Instructions for AI coding agents, treated like source code: authored in markdown, validated by schemas, assembled per harness, deployed with provenance.</p>
+        <div class="facts">
+            <span><strong>github.com/runedeck</strong></span>
+            <span>opened <strong>2026-07-12</strong></span>
+            <span>license <strong>EUPL-1.2</strong></span>
+            <span>site <strong>runedeck.ai</strong></span>
+            <span>toolchain <strong>Rust 2024</strong></span>
+        </div>
+    </header>
+
+    <nav class="rail" aria-label="Contents">
+        <div class="rail-title">Contents</div>
+        <ol>
+            <li><a href="#idea">The idea</a></li>
+            <li><a href="#repos">The repositories</a></li>
+            <li><a href="#lexicon">Lexicon</a></li>
+            <li><a href="#pipeline">Assemble and deploy</a></li>
+            <li><a href="#providers">Providers</a></li>
+            <li><a href="#plugin">Plugin shape</a></li>
+            <li><a href="#integrity">Provenance and integrity</a></li>
+            <li><a href="#commands">Command surface</a></li>
+            <li><a href="#flows">The two flows</a></li>
+            <li><a href="#specs">Spec lifecycle</a></li>
+            <li><a href="#surfaces">TUI and dashboard</a></li>
+            <li><a href="#extend">Extension model</a></li>
+            <li><a href="#config">Config and sources</a></li>
+            <li><a href="#skeleton">Skeleton</a></li>
+            <li><a href="#crew">Crew and ceremony</a></li>
+            <li><a href="#position">Positioning</a></li>
+        </ol>
+        <div class="rail-title" style="margin-top:1.5rem">Tutorials</div>
+        <ol>
+            <li><a href="#t-setup">1 · First run</a></li>
+            <li><a href="#t-deploy">2 · Scaffold and deploy</a></li>
+            <li><a href="#t-anatomy">3 · Read what landed</a></li>
+            <li><a href="#t-pin">4 · Pin a remote deck</a></li>
+            <li><a href="#t-repair">5 · Override and repair</a></li>
+            <li><a href="#t-authoring">6 · Author a domain</a></li>
+            <li><a href="#t-import">7 · Import upstream</a></li>
+            <li><a href="#t-variants">8 · Variants and release</a></li>
+            <li><a href="#t-spec">9 · Spec lifecycle</a></li>
+            <li><a href="#t-docs">10 · Decisions and tasks</a></li>
+            <li><a href="#t-review">11 · Review in the TUI</a></li>
+            <li><a href="#t-launch">12 · Launch profiles</a></li>
+            <li><a href="#t-exec">13 · Scripts in skills</a></li>
+        </ol>
+        <div class="rail-title" style="margin-top:1.5rem">Closing</div>
+        <ol>
+            <li><a href="#state">State of play</a></li>
+            <li><a href="#next">Where to read next</a></li>
+        </ol>
+    </nav>
+
+    <main>
+
+        <div class="part"><span>Part I · Reference</span></div>
+
+        <!-- ============ 1 ============ -->
+        <section id="idea">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᚨ</span><h2>The idea</h2></div>
+
+            <p>Every AI coding harness wants its instructions in its own dialect and its own directory. Claude Code reads <code>.claude/</code>, Codex reads <code>.codex/</code> and wants agents as TOML, Gemini CLI wants kebab-case filenames and its own tool names, opencode wants something else again. Copy the same markdown into each and you have four divergent copies within a month.</p>
+
+            <p>Rune Deck's answer is a build pipeline for prompts. You write a skill, agent, rule, or hook <strong>once</strong> as markdown with YAML frontmatter. The <code>rune</code> CLI transforms it per harness, deploys it, and records what it deployed, so drift becomes something you can detect and repair rather than something you discover.</p>
+
+            <p>The project's own framing of why raw copying is not enough: assembly (the deployed file is clean, the source keeps its metadata), provenance (an in-toto/SLSA record of which sources produced each deployed file), and manifest tracking (a fingerprint per deployed file, so modifications, staleness, and orphans are all visible).</p>
+
+            <p>The second idea, less obvious and more interesting: the same discipline is applied to the repository around the content. Architecture decisions are records under <code>docs/decisions/</code>, capability behaviour is specified in normative <code>SHALL</code> statements under <code>docs/specs/</code>, and both trees are managed by CLI subcommands rather than convention alone.</p>
+        </section>
+
+        <!-- ============ 2 ============ -->
+        <section id="repos">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᛒ</span><h2>The repositories</h2></div>
+
+            <p>The org splits cleanly into the tool, the content, and the scaffolding, plus distribution and org defaults.</p>
+
+            <div class="scroller">
+                <table>
+                    <thead>
+                        <tr><th>Repo</th><th>Stack</th><th>Role</th><th>State</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>cli</code></td>
+                            <td class="mono">Rust</td>
+                            <td>The <code>rune</code> binary. Assembly, deployment, validation, provenance, TUI, web dashboard, spec and ADR lifecycle. Roughly 55k lines across <code>src/</code>.</td>
+                            <td><span class="pill live">v0.5.0</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>deck</code></td>
+                            <td class="mono">markdown</td>
+                            <td>The content collection: <code>deck.yaml</code> at the root, one directory per domain under <code>runes/</code>, named selections under <code>casts/</code>.</td>
+                            <td><span class="pill hold">seeded</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>skeleton</code></td>
+                            <td class="mono">templates</td>
+                            <td>Empty-repo archetypes composed by <code>rune init</code>. Flat template directory plus the specs that define composition and repo ceremony.</td>
+                            <td><span class="pill live">active</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>homebrew-tap</code></td>
+                            <td class="mono">Ruby</td>
+                            <td>One formula. <code>brew install runedeck/tap/rune</code> builds from source with <code>cargo install</code> and generates shell completions from the built binary.</td>
+                            <td><span class="pill live">v0.5.0</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>.github</code></td>
+                            <td class="mono">markdown</td>
+                            <td>Org defaults that cascade to every repo without one of its own: SECURITY, CONTRIBUTING, FUNDING, issue forms, and a starter quality workflow.</td>
+                            <td><span class="pill live">active</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>bench</code></td>
+                            <td class="mono">private</td>
+                            <td>"Casting the runes on language models." Model evaluation, judging by the name and the org's practice of cross-vendor review. Contents not readable.</td>
+                            <td><span class="pill">private</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="note">
+                <span class="label">Worth knowing</span>
+                <p>The CLI repo was renamed from <code>rune</code> to <code>cli</code>. GitHub still redirects the old path, which is why <code>Cargo.toml</code> and the Homebrew formula both point at <code>runedeck/rune</code> and still resolve. <code>rune</code> is the binary name; <code>rune-cli</code> is the crate name; the library target inside it is called <code>commands</code>.</p>
+            </div>
+        </section>
+
+        <!-- ============ 3 ============ -->
+        <section id="lexicon">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᚦ</span><h2>Lexicon</h2></div>
+
+            <p>The vocabulary is deliberate and load-bearing: these words are directory names, config keys, and subcommands. Learning them is most of learning the tool.</p>
+
+            <div class="scroller">
+                <table>
+                    <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>rune</strong></td><td>One instruction file: a skill, an agent, a rule, or a hook. The closed set of kinds is <code>skills</code>, <code>agents</code>, <code>rules</code>, <code>hooks</code>.</td></tr>
+                        <tr><td><strong>deck</strong></td><td>A collection of runes: directories under <code>runes/&lt;domain&gt;/</code> beneath a <code>deck.yaml</code> root. Each domain carries its own <code>module.yaml</code>.</td></tr>
+                        <tr><td><strong>cast</strong></td><td>A named selection of runes across domains, for a use case. Lives at <code>casts/&lt;name&gt;.yaml</code>, supports <code>extends</code>, glob <code>runes</code>, and <code>exclude</code>.</td></tr>
+                        <tr><td><strong>target</strong></td><td>The repo <code>rune</code> deploys <em>into</em>. Bound with <code>rune target</code> so other commands know where to act.</td></tr>
+                        <tr><td><code>.rune</code></td><td>The consumer manifest at a target's root: which source, which casts, which runes. Committed, so a selection is reproducible.</td></tr>
+                        <tr><td><code>.manifest</code></td><td>Rune's own record inside each provider directory of exactly what it deployed, for drift detection, pruning, and repair.</td></tr>
+                        <tr><td><strong>qualified id</strong></td><td><code>&lt;domain&gt;/&lt;kind&gt;/&lt;name&gt;</code>. Short forms are accepted while unambiguous; ambiguity is a hard error that lists every candidate.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>There are exactly two roles, and most confusion about the tool comes from mixing them up: you <strong>author</strong> a deck, and you <strong>consume</strong> it in a target. <code>rune context</code> exists to tell you which one you are currently in.</p>
+        </section>
+
+        <!-- ============ 4 ============ -->
+        <section id="pipeline">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᛞ</span><h2>Assemble and deploy</h2></div>
+
+            <p>Two stages, always. <code>rune assemble</code> transforms source into <code>build/&lt;provider&gt;/</code>. <code>rune deploy</code> moves the build into provider directories and writes tracking. <code>rune install</code> runs both.</p>
+
+            <div class="pipe-wrap">
+                <div class="pipe">
+                    <div class="stage">
+                        <span class="stage-name">Source</span>
+                        <ul>
+                            <li>rules/UseRTK.md</li>
+                            <li>rules/claude/UseRTK.md</li>
+                            <li>rules/user/UseRTK.md</li>
+                            <li>agents/GameMaster.md</li>
+                            <li>skills/MySkill/SKILL.md</li>
+                        </ul>
+                        <span class="op">Frontmatter intact. Qualifier directories still nested.</span>
+                    </div>
+                    <div class="stage">
+                        <span class="stage-name">build/</span>
+                        <ul>
+                            <li>build/claude/rules/…</li>
+                            <li>build/gemini/… kebab-case</li>
+                            <li>build/codex/… agents as TOML</li>
+                            <li>build/opencode/…</li>
+                            <li>*.yaml provenance sidecars</li>
+                        </ul>
+                        <span class="op">Strip frontmatter and reference links, resolve qualifiers, apply provider transforms.</span>
+                    </div>
+                    <div class="stage">
+                        <span class="stage-name">Target</span>
+                        <ul>
+                            <li>.claude/rules/…</li>
+                            <li>.claude/skills/rune/…</li>
+                            <li>.codex/ .gemini/ .opencode/</li>
+                            <li>.provenance/*.yaml</li>
+                            <li>.manifest</li>
+                        </ul>
+                        <span class="op">Skip unchanged, refuse modified without <code>--force</code>, prune orphans.</span>
+                    </div>
+                </div>
+            </div>
+            <p class="caption">build/ is transient and rewritten on every assemble. Everything at the target is manifest-tracked.</p>
+
+            <h3>Qualifier directories</h3>
+            <p>Subdirectories in source are organizational, not structural: they flatten at assembly time, and the most specific wins. This is how one source file serves a personal override, a provider quirk, and a model-specific variant without branching.</p>
+
+            <div class="scroller">
+                <table>
+                    <thead><tr><th>Directory</th><th>Purpose</th><th>Precedence</th></tr></thead>
+                    <tbody>
+                        <tr><td class="mono">user/</td><td>Personal overrides and additions, git-ignored, merged at assembly</td><td>highest</td></tr>
+                        <tr><td class="mono">&lt;provider&gt;/&lt;model&gt;/</td><td>Model-specific variant (<code>claude-opus-4/</code>)</td><td></td></tr>
+                        <tr><td class="mono">&lt;provider&gt;/</td><td>Provider-specific variant</td><td></td></tr>
+                        <tr><td class="mono">(root)</td><td>Base content</td><td>lowest</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>A file present only in <code>user/</code> still deploys, flat, alongside the rest. That is the escape hatch that keeps individual customization out of upstream.</p>
+
+            <h3>Assembly transforms</h3>
+            <div class="scroller">
+                <table>
+                    <thead><tr><th>Rule</th><th>Scope</th><th>Effect</th></tr></thead>
+                    <tbody>
+                        <tr><td class="mono">kebab-case</td><td>all kinds</td><td>Filenames and the <code>name:</code> field to kebab-case</td></tr>
+                        <tr><td class="mono">kebab-case-agents</td><td>agents</td><td>Same, restricted to agent files</td></tr>
+                        <tr><td class="mono">remap-tools</td><td>all kinds</td><td>Rewrite tool names inside backtick spans (<code>Read</code> becomes <code>read_file</code>)</td></tr>
+                        <tr><td class="mono">strip-links</td><td>all kinds</td><td>Remove GFM reference-style link definitions</td></tr>
+                        <tr><td class="mono">agents-to-toml</td><td>agents</td><td>Convert a markdown agent into TOML</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============ 5 ============ -->
+        <section id="providers">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᛖ</span><h2>Providers</h2></div>
+
+            <p>A provider is a config entry, not code. <code>defaults.yaml</code> is committed and carries the shipped conventions; a git-ignored <code>config.yaml</code> deep-merges over it, so a local override never edits a tracked file. Adding a harness means adding a stanza.</p>
+
+            <div class="scroller">
+                <table>
+                    <thead><tr><th>Provider</th><th>Target</th><th>Assembly</th><th>Notable</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td><code>claude</code></td>
+                            <td class="mono">.claude</td>
+                            <td class="mono">(none)</td>
+                            <td><code>plugin: rune</code>. Keeps the native SKILL.md fields Claude Code actually reads (<code>allowed-tools</code>, <code>argument-hint</code>, <code>disable-model-invocation</code>, and the rest). Alias <code>claudecode</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><code>codex</code></td>
+                            <td class="mono">.codex</td>
+                            <td class="mono">agents-to-toml, strip-links</td>
+                            <td>Deploy rule <code>rulesync</code>. Carries per-tier reasoning effort alongside model tiers.</td>
+                        </tr>
+                        <tr>
+                            <td><code>gemini</code></td>
+                            <td class="mono">.gemini</td>
+                            <td class="mono">kebab-case-agents, remap-tools, strip-links</td>
+                            <td>The only provider that remaps tool names. Alias <code>geminicli</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><code>opencode</code></td>
+                            <td class="mono">.opencode</td>
+                            <td class="mono">kebab-case-agents, strip-links</td>
+                            <td>Model tiers point at Claude models.</td>
+                        </tr>
+                        <tr>
+                            <td><code>agentskills</code></td>
+                            <td class="mono">.agents</td>
+                            <td class="mono">strip-links</td>
+                            <td><code>enabled: false</code>. Opt-in generic fallback for the agentskills.io layout, via <code>--provider</code> or <code>rune provider enable</code>.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>Each provider also declares <code>keep_fields</code> per kind (which frontmatter keys survive the strip), and <code>models</code> tiered as <code>strong</code> / <code>fast</code> / <code>light</code> so an agent definition can name a tier instead of a model id. <code>target</code> can be a map when a provider needs different roots per kind, with <code>default</code> as the fallback and unknown keys rejected.</p>
+        </section>
+
+        <!-- ============ 6 ============ -->
+        <section id="plugin">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᚠ</span><h2>Plugin shape</h2></div>
+
+            <p>The sharpest recent design call. Skills deployed loose into <code>.claude/skills/&lt;name&gt;</code> load unnamespaced, so <code>/deslop</code> can collide with anything else on the machine, and nothing marks the content as the deck's.</p>
+
+            <p>Claude Code namespaces skills that arrive as a plugin, but the usual route to a plugin is a marketplace install, which is heavier than the primary path of staging and installing. The resolution: deploy the selection as a <strong>skills-directory plugin</strong>. Any directory under a skills directory carrying <code>.claude-plugin/plugin.json</code> auto-loads, no marketplace and no install ceremony.</p>
+
+            <ul class="plain">
+                <li>Skills, agents, and hooks land under <code>.claude/skills/rune/</code>; rules keep their loose <code>.claude/rules</code> path, because rules are not a plugin component.</li>
+                <li>Deploy generates two manifest-tracked files at the plugin root: <code>.claude-plugin/plugin.json</code> and <code>hooks/hooks.json</code>, the latter a union of every deployed domain's hook table in sorted order. Hooks register through the loader instead of hand-wired <code>settings.json</code> entries.</li>
+                <li>Every skill then loads as <code>rune:&lt;name&gt;</code>. The ADR records this as verified live: <code>claude plugin validate</code> passes on the generated root, and a session lists the deck's skills under the namespace.</li>
+                <li>The target now carries two manifests, the loose rules tree and the plugin tree. Doctor scans the nested root as its own target and excludes it from the outer orphan scan.</li>
+                <li><code>plugin: null</code> in config restores the loose layout.</li>
+            </ul>
+
+            <p class="caption">Skill body edits are live in a running session; hook and agent changes need /reload-plugins.</p>
+        </section>
+
+        <!-- ============ 7 ============ -->
+        <section id="integrity">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᚷ</span><h2>Provenance and integrity</h2></div>
+
+            <p>Two records answer two different questions, and keeping them separate is a stated architectural position.</p>
+
+            <div class="duo">
+                <div>
+                    <h3>Provenance</h3>
+                    <p><em>What produced this file?</em> An in-toto Statement carrying an SLSA v1 provenance predicate, serialized as YAML, one sidecar per assembled file. Sidecars deploy into per-directory <code>.provenance/</code> subdirectories at the target and ship inside release tarballs, so an extracted tarball can be verified without re-running assembly.</p>
+                </div>
+                <div>
+                    <h3>Manifest</h3>
+                    <p><em>Was this deployed file modified since we put it there?</em> A <code>.manifest</code> dotfile at each target with a fingerprint per deployed file, referencing each sidecar by its <code>provenance</code> field. This is what makes incremental installs, pruning, and repair possible.</p>
+                </div>
+            </div>
+
+            <div class="code"><pre><code><span class="k">_type</span>: https://in-toto.io/Statement/v1
+<span class="k">subject</span>:
+    - name: claude/rules/AgentTeams.md
+      digest:
+          sha256: def456...
+<span class="k">predicateType</span>: https://slsa.dev/provenance/v1
+<span class="k">predicate</span>:
+    buildDefinition:
+        buildType: https://rune-cli/assemble/v1
+        resolvedDependencies:
+            - uri: rules/AgentTeams.md          <span class="c"># base</span>
+              digest: { sha256: abc123... }
+            - uri: rules/user/AgentTeams.md     <span class="c"># override that won</span>
+              digest: { sha256: 789ghi... }
+    runDetails:
+        builder: { id: rune-cli, version: { rune: 0.1.0 } }</code></pre></div>
+            <p class="caption">The sidecar names every input that combined to produce one deployed instruction, including which override applied.</p>
+
+            <h3>The commands that read them</h3>
+            <div class="scroller">
+                <table>
+                    <thead><tr><th>Command</th><th>Question it answers</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>rune provenance</code></td><td>Show the source-to-deployed chain for one file, or scan a directory for verification status grouped by source. <code>--show-orphans</code> includes files with no record.</td></tr>
+                        <tr><td><code>rune drift</code></td><td>Does deployed content still match source? Also compares a source against an upstream reference, separating frontmatter from body and reporting which keys changed. <code>--ignore</code> suppresses expected per-project keys.</td></tr>
+                        <tr><td><code>rune doctor</code></td><td>Per-file integrity as <code>ok</code> / <code>modified</code> / <code>missing</code> / <code>orphan</code>. <code>--repair</code> restores missing files and quarantines orphans, and never overwrites a user edit.</td></tr>
+                        <tr><td><code>rune clean</code></td><td>Remove files from previous installs that the current source no longer contains.</td></tr>
+                        <tr><td><code>rune validate</code></td><td>Structure, schemas, <code>.mdschema</code> compliance, plus manifest-based drift. Fast in-process by default; <code>--scan</code> adds gitleaks and semgrep and is reserved for commit and push hooks.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>The asymmetry in repair is the design's ethical stance: an automated tool may restore what is missing and quarantine what is unaccounted for, but overwriting something a human edited takes a deliberate <code>rune install --force</code>. Orphans go to <code>.trash/</code> rather than being deleted.</p>
+
+            <p>One validation subtlety worth internalizing: when a manifest exists, validate compares each tracked file against the <strong>current embedded template</strong>, not the fingerprint recorded in the manifest. The manifest indexes which files to check; the template is the source of truth for what they should contain. That is how a new CLI release can flag repos still carrying an old scaffold. Files that were already customized at <code>init</code> time never enter the manifest, so they never produce false drift.</p>
+        </section>
+
+        <!-- ============ 8 ============ -->
+        <section id="commands">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᚺ</span><h2>Command surface</h2></div>
+
+            <p>Wide, and grouped in help so flagship workflows read separately from plumbing. Noun namespaces are singular by ruling (<code>rune skill</code>, not <code>rune skills</code>), plurals survive as hidden aliases, and a bare noun lists that collection with staged markers. Inspection commands accept <code>--json</code>.</p>
+
+            <div class="scroller">
+                <table>
+                    <thead><tr><th>Group</th><th>Commands</th><th>What the group is for</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>Orient</td>
+                            <td class="mono">context · status · setup · config · target · find</td>
+                            <td>Where am I, what is staged, what is deployed, what next. <code>rune context --json</code> is the agent's first call.</td>
+                        </tr>
+                        <tr>
+                            <td>Stage</td>
+                            <td class="mono">add · skill · agent · rule · hook · provider</td>
+                            <td>Write selections into <code>.rune</code>. <code>add</code> handles casts, whole domains, and qualified ids; the kind commands handle bare names.</td>
+                        </tr>
+                        <tr>
+                            <td>Build</td>
+                            <td class="mono">install · assemble · deploy · copy · clean · release · import</td>
+                            <td>The pipeline itself, plus a transform-free <code>copy</code> and tarball packaging. <code>import</code> pulls an upstream rune in with digest-pinned provenance (formerly <code>adopt</code>).</td>
+                        </tr>
+                        <tr>
+                            <td>Verify</td>
+                            <td class="mono">validate · drift · provenance · doctor</td>
+                            <td>Everything in the previous section.</td>
+                        </tr>
+                        <tr>
+                            <td>Process</td>
+                            <td class="mono">spec · adr · docs · todo · review</td>
+                            <td>Managed documentation trees: capability specs and changes, decision records, link checking, a repo task list in todo.txt syntax, and persisted review comments.</td>
+                        </tr>
+                        <tr>
+                            <td>Surfaces</td>
+                            <td class="mono">tui · dashboard</td>
+                            <td>Terminal UI and read-only web view over the same services layer.</td>
+                        </tr>
+                        <tr>
+                            <td>Extend</td>
+                            <td class="mono">exec · launch · watch · completion · rune-&lt;verb&gt;</td>
+                            <td>Run scripts bundled in skills, launch coding tools through middleware, monitor sources, install completions, and dispatch to external subcommands git-style.</td>
+                        </tr>
+                        <tr>
+                            <td>Scaffold</td>
+                            <td class="mono">init</td>
+                            <td>Compose a new repo from skeleton archetypes, or retrofit an existing one.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============ 9 ============ -->
+        <section id="flows">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᛁ</span><h2>The two flows</h2></div>
+
+            <div class="duo">
+                <div>
+                    <h3>Consuming a deck</h3>
+                    <p>The dominant path. Bind a target, stage what you want, install, then verify.</p>
+                    <div class="code"><pre><code><span class="c"># once per machine</span>
+brew install runedeck/tap/rune
+rune setup                    <span class="c"># finds decks, persists choice</span>
+rune completion install
+rune skill install            <span class="c"># teach agents to drive rune</span>
+
+<span class="c"># per project</span>
+rune init weather-stats --lang rust --purpose tool
+rune target weather-stats
+rune add --cast development   <span class="c"># or a domain, or an id</span>
+rune skill add deslop
+rune context                  <span class="c"># confirm before writing</span>
+rune install
+rune drift --target .
+rune doctor --target .</code></pre></div>
+                    <p class="caption">Staging from a directory with no .rune asks before acting on the bound target. EOF, a closed stdin, and non-interactive runs all refuse the redirect.</p>
+                </div>
+                <div>
+                    <h3>Authoring a deck</h3>
+                    <p>Validate constantly, import upstream content with attribution, package per domain.</p>
+                    <div class="code"><pre><code>rune status --source &lt;deck&gt;    <span class="c"># one-shot dashboard</span>
+rune validate --source &lt;deck&gt;  <span class="c"># schemas + structure</span>
+rune validate --scan           <span class="c"># + gitleaks, semgrep</span>
+
+rune import &lt;dir&gt; --module &lt;target&gt; \
+    --name &lt;kebab-name&gt; \
+    --source-url &lt;url&gt; --dry-run
+
+rune provenance --target &lt;project&gt;/.claude
+rune release &lt;domain&gt; --source &lt;deck&gt;
+rune dashboard --source &lt;deck&gt;</code></pre></div>
+                    <p class="caption">Tree import aligns SKILL.md to the target name, copies every companion byte-for-byte (scripts, binary assets, worker prompts), and regenerates a sidecar per file.</p>
+                </div>
+            </div>
+
+            <p>Aggregate operations matter at deck scale: run <code>validate</code>, <code>provenance</code>, <code>drift</code>, or <code>clean</code> against a deck root and they iterate every domain into one report, failing the run if any domain fails. Validation at deck level also refuses cross-domain deploy-path collisions, so two domains cannot both ship <code>skills/X</code>. There is no precedence rule to fall back on: the collision is simply an error.</p>
+        </section>
+
+        <!-- ============ 10 ============ -->
+        <section id="specs">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᛃ</span><h2>Spec lifecycle</h2></div>
+
+            <p>Rune adopts the OpenSpec standard as house canon without depending on the OpenSpec tool, and deliberately roots at <code>docs/</code> rather than the hardcoded <code>openspec/</code> directory. Interop is explicit: <code>rune spec export --openspec</code> and <code>import --openspec</code> convert between layouts without rewriting artifact bodies.</p>
+
+            <div class="scroller">
+                <table>
+                    <thead><tr><th>Tree</th><th>Holds</th></tr></thead>
+                    <tbody>
+                        <tr><td class="mono">docs/specs/&lt;capability&gt;/spec.md</td><td>Current truth. <code>## Purpose</code>, then <code>### Requirement:</code> blocks with normative <code>SHALL</code> statements, each carrying <code>#### Scenario:</code> blocks of WHEN/THEN bullets.</td></tr>
+                        <tr><td class="mono">docs/changes/&lt;change-id&gt;/</td><td>Proposed work: <code>proposal.md</code>, optional <code>design.md</code>, delta specs under <code>specs/</code> using <code>## ADDED / MODIFIED / REMOVED Requirements</code>, and <code>tasks.md</code> as a checklist.</td></tr>
+                        <tr><td class="mono">docs/changes/archive/&lt;date&gt;-&lt;id&gt;/</td><td>Completed or abandoned work, dated.</td></tr>
+                        <tr><td class="mono">docs/decisions/</td><td>ADRs, canonical for <em>why</em> a direction was chosen. Proposals link the relevant ADR; a design cites it rather than repeating its rationale.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="code"><pre><code>rune spec propose improve-discovery --capability discovery
+rune spec list                  <span class="c"># active changes; --specs for capabilities</span>
+rune spec show improve-discovery
+rune spec context improve-discovery   <span class="c"># agent-ready work order</span>
+rune spec doctor                <span class="c"># relationship health, exit 1 on broken</span>
+rune validate
+rune spec archive improve-discovery   <span class="c"># merges delta into current truth</span>
+rune spec archive improve-discovery --abandon</code></pre></div>
+
+            <p><code>rune spec context</code> is the entry point for an agent: it concatenates proposal, deltas, and checklist into one markdown work order with unchecked tasks highlighted, or structured JSON with <code>id</code>, <code>proposal</code>, <code>deltas</code>, and <code>tasks</code>. Archive refuses to run while tasks remain unchecked; <code>-y</code> overrides with a warning. Work that will not ship must still end explicitly, and abandoning stamps <code>status: abandoned</code> without merging anything.</p>
+
+            <p>Two restraints keep this from becoming ceremony for its own sake. Small local fixes are told to skip the change folder entirely and go through the ordinary edit, test, review loop. And when a scenario is already enforced by an executable check, the spec cites that check instead of restating it in prose.</p>
+
+            <p>ADR numbering is prefixed by area, managed by <code>rune adr</code> with per-prefix sequences: <code>ASSEMBLY-</code> for the pipeline, <code>CLI-</code> for command and interface decisions, <code>RUST-</code> for language conventions, <code>DECK-</code> for the source model, <code>RUNE-</code> for the fork and its governance. <code>rune docs check</code> then verifies internal links, unresolved wikilinks, and orphan pages, exempting the trees that <code>spec</code>, <code>adr</code>, and the backlog already manage.</p>
+        </section>
+
+        <!-- ============ 11 ============ -->
+        <section id="surfaces">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᚲ</span><h2>TUI and dashboard</h2></div>
+
+            <p>Two faces over one services layer, and a rule that neither may mutate state the CLI cannot reach.</p>
+
+            <div class="duo">
+                <div>
+                    <h3>Terminal UI (primary)</h3>
+                    <ul class="plain">
+                        <li>Vim keybindings modeled on tuicr. Miller columns navigate decks, then kinds, then runes; <code>/</code> filters in-pane, <code>!</code> shows problems only.</li>
+                        <li>Code view with counts (<code>12j</code>), <code>gg</code>/<code>G</code>/<code>zz</code>, section jumps, search with <code>n</code>/<code>N</code>, visual selection.</li>
+                        <li>Review comments with <code>c</code>, persisted to <code>.rune-comments.yaml</code> at the target root as local working state. <code>y</code> copies the rendered review through <code>pbcopy</code>, falling back to terminal clipboard integration.</li>
+                        <li><code>e</code> edits in-TUI, <code>E</code> hands off to <code>$EDITOR</code>, <code>o</code> creates a <code>user/</code> override.</li>
+                        <li>A provenance tab showing the full SLSA statement per deployed rune, and <code>--edit</code> for a checkbox cast editor that can install from inside the UI.</li>
+                        <li>Built on ratatui, crossterm, syntect, and edtui.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Web dashboard (read-only)</h3>
+                    <ul class="plain">
+                        <li>axum, askama, and htmx, bound to loopback, inspection only. Read-only and loopback-bound are an explicit security decision, not an implementation detail.</li>
+                        <li>Views over deck content, artifacts, browse, files, and integrity.</li>
+                        <li>Per-harness settings are surfaced through an allowlist of filenames in config (<code>settings.json</code>, <code>config.toml</code>, and similar). Anything unlisted, meaning caches, runtime state, credentials, stays hidden.</li>
+                    </ul>
+                    <p class="caption">Both ship in the default `full` feature, so a plain cargo install gets the complete interface.</p>
+                </div>
+            </div>
+
+            <div class="note">
+                <span class="label">Stated as direction, not yet built</span>
+                <p>The ADR is candid that batched background log walking, the sliding metadata window, and the richer cast composition views are decided direction rather than implemented behaviour. The current TUI loads a short synchronous history window.</p>
+            </div>
+        </section>
+
+        <!-- ============ 12 ============ -->
+        <section id="extend">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᛚ</span><h2>Extension model</h2></div>
+
+            <p>A consistent principle runs through this area: the Rust kernel stays small and owns contracts, while capability lives in scripts and config. Three mechanisms implement it.</p>
+
+            <h3>rune exec: scripts bundled in skills</h3>
+            <p>A skill declares an <code>exec:</code> block in its frontmatter with <code>script</code>, optional <code>runtime</code>, and optional <code>inputSchema</code> / <code>outputSchema</code>. Rune resolves, launches, and validates; it does not create virtual environments or install packages.</p>
+            <div class="scroller">
+                <table>
+                    <thead><tr><th>Extension</th><th>Runtime</th><th>Why</th></tr></thead>
+                    <tbody>
+                        <tr><td class="mono">.py</td><td class="mono">uv run</td><td>No venv orchestration in Rust</td></tr>
+                        <tr><td class="mono">.sh .bash</td><td class="mono">bash</td><td></td></tr>
+                        <tr><td class="mono">.ts</td><td class="mono">deno run</td><td>Self-contained, implies no node_modules management</td></tr>
+                        <tr><td class="mono">.js .mjs</td><td class="mono">node</td><td></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>Scripts receive <code>RUNE_ROOT</code>, <code>RUNE_SKILL_DIR</code>, the resolved <code>RUNE_*</code> ontology, <code>CI=1</code>, and <code>INPUT_*</code> variables derived from the top-level JSON input object. Because Rune invokes through an interpreter, scripts need no executable bit. In JSON mode output is wrapped as <code>{ ok, exit_code, structured, stdout, stderr }</code>, and when <code>outputSchema</code> is declared, stdout must parse and validate against it. Schema validation sits in the kernel because it is a contract check, not a capability.</p>
+
+            <h3>rune launch: an environment middleware chain</h3>
+            <p><code>rune launch &lt;tool&gt;</code> composes a <code>LaunchPlan</code>: child environment entries, an optional API <code>base_url</code>, command wrappers, and best-effort preflight steps. Middleware runs in the order named by <code>--with a,b,c</code>; a conflicting key warns and the later value wins. <code>--tmux</code> appends as the outer wrapper so it encloses everything before it. Built-ins cover <code>pxpipe</code>, <code>otel</code>, <code>presidio</code>, <code>squid</code>, <code>docker</code>, and <code>tmux</code>.</p>
+            <p>Unknown middleware <code>foo</code> resolves to an executable named <code>rune-launch-mw-foo</code> using the same search order as external verbs. Rune sends the current plan as JSON on stdin and merges the JSON patch from stdout, so middleware authors get a small contract instead of access to internals. The child receives only the composed environment; Rune's own is untouched. <code>--dry-run</code> prints the resolved plan and final argv without spawning anything.</p>
+            <p>Profiles layer on top rather than replacing the chain: <code>rune launch claude@sol</code> resolves a named preset contributing <code>env</code>, <code>args</code>, and <code>with</code> entries. Secrets are stored as <code>from_env: KEY</code> references resolved from the parent environment at launch, never as values, and an unset reference is a hard error. Profiles resolve from the user config only, because repo-level definitions would let an untrusted repository redirect credentials; that stays out until a restricted merge exists that forbids credential, endpoint, proxy, certificate, <code>PATH</code>, loader, <code>HOME</code>, and <code>XDG_*</code> keys from repository sources. Resolved values are covered by redaction in dry-run and JSON output.</p>
+
+            <h3>External subcommands and discovery</h3>
+            <p>An unrecognized verb falls back to a <code>rune-&lt;verb&gt;</code> executable, git-style, searched across module <code>commands/</code>, configured extension directories, and <code>PATH</code>. <code>rune watch</code> maintains a registry of monitored locations, local paths or remote repos pinned to a commit, and <code>rune find</code> ranks local and watched runes by name, trigger text, and description.</p>
+        </section>
+
+        <!-- ============ 13 ============ -->
+        <section id="config">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᛗ</span><h2>Config and sources</h2></div>
+
+            <h3>User config</h3>
+            <p>One typed file at <code>~/.config/rune/config.yaml</code>, deserialized into structs that <strong>deny unknown top-level fields</strong>, so a misspelled key fails loudly rather than silently doing nothing. Resolution order is <code>RUNE_*</code> environment variable, then config file, then built-in default, with a leading <code>~/</code> expanded after resolution. If the file is absent, everything resolves from environment and defaults, and no other file is consulted.</p>
+            <p>The config carries the shared ontology: the targets root, archive, vault, lore, mount, developer, artifacts, and git hooks locations, plus the top-level <code>deck</code> key that supplies the default source for staging. <code>rune config</code> prints the effective values with the provenance of each; <code>get</code> is raw and scriptable, exiting non-zero when unset. Key names stay short by convention, and the absence of a value <em>is</em> the default.</p>
+
+            <h3>Where content comes from</h3>
+            <p>A <code>.rune</code> entry names either a local path or a git source. Git sources are HTTPS only and pinned to a full 40-character commit SHA: no shorthand, no userinfo URLs, no branches, no tags. Clones go through <code>gix</code> into a content-addressed cache under <code>~/.cache/rune/git/</code>, and the pinned tree is materialized into a per-SHA worktree. A fetch or checkout failure is a hard error, never a silent fallback.</p>
+            <p>Cast resolution happens at install time against the pinned commit, which is what makes a committed manifest reproducible: <code>extends</code> unions depth-first with cycles as an error, globs match canonical ids rather than paths, <code>exclude</code> applies last, and ordering is deterministic (domain, then kind, then name) specifically so drift reports stay quiet. Schema v2 adds a <code>dirs:</code> section declaring workspace members with strict relative-path validation, which lets <code>rune todo --all</code> aggregate across them.</p>
+
+            <div class="note">
+                <span class="label">Security posture in the details</span>
+                <p>The pattern repeats throughout: path traversal components in a manifest key are rejected rather than joined onto the target root, closing a write outside the deploy root through a poisoned <code>.manifest</code>. Remotely fetched scripts are verified by SHA-256 before execution. Third-party GitHub Actions are pinned to immutable refs. Secret scanning is scoped to the commit range a push introduces, with a full-history scan on a schedule instead of on every push.</p>
+            </div>
+        </section>
+
+        <!-- ============ 14 ============ -->
+        <section id="skeleton">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᚾ</span><h2>Skeleton</h2></div>
+
+            <p>Nothing in this repo runs on its own. It is the material <code>rune init</code> composes into a new repository. Read it together with the CLI, because the two are currently one redesign apart, and knowing which is which saves an afternoon.</p>
+
+            <h3>What the CLI does today</h3>
+            <p>A scaffold is three layers applied in order, each a hard requirement: <code>base</code>, then <code>lang/&lt;lang&gt;</code>, then <code>purpose/&lt;purpose&gt;</code>. A missing layer directory is an error rather than a skip.</p>
+
+            <div class="code"><pre><code>rune init weather-stats --lang rust --purpose tool --brief "Warns the crew"
+rune init ./existing-dir --lang shell     <span class="c"># scaffold in place</span>
+rune init weather-stats --dry-run         <span class="c"># print the plan, write nothing</span></code></pre></div>
+
+            <p><code>--lang</code> accepts <code>rust</code>, <code>python</code>, or <code>shell</code>; <code>--purpose</code> accepts <code>tool</code>, <code>module</code>, or <code>spine</code>. The skeleton root resolves as <code>--skeleton</code>, then <code>RUNE_SKELETON</code> or the <code>skeleton</code> config key (default <code>~/Developer/N4M3Z/skeleton</code>), and if that directory does not exist, an <strong>embedded skeleton</strong> is materialized into a version-keyed cache. That fallback is why <code>rune init</code> works on a fresh machine with nothing checked out.</p>
+
+            <h3>What the skeleton repo specifies</h3>
+            <p>The published repo is a flat redesign: templates as siblings under <code>templates/</code> with no dimensional grouping, selected by name with <code>--with rust,tool</code>, later templates overriding earlier files, and an interactive picker when none are named. Its <code>template-composition</code> spec is the most quietly elegant document in the org, and two of its rules deserve stealing regardless of this tool:</p>
+
+            <ul class="plain">
+                <li><strong>Composition never overwrites an existing file.</strong> That makes it idempotent, which makes the same command that scaffolds a new repo also <strong>retrofit an old one</strong>. Run it twice and the second run does nothing.</li>
+                <li><strong><code>.gitignore</code> is the single exception, and it concatenates.</strong> Fragment entries absent from an existing file are appended, entries already present are not duplicated. So a toolchain template contributes its ignores without discarding the base set, and retrofit and concatenation compose cleanly instead of fighting.</li>
+            </ul>
+
+            <div class="scroller">
+                <table>
+                    <thead><tr><th>Template</th><th>Carries</th></tr></thead>
+                    <tbody>
+                        <tr><td class="mono">base</td><td>Git hooks, CI stub, Makefile, license, <code>KEYS</code>, editor and git config, agent briefs (<code>CLAUDE.md</code>, <code>AGENTS.md</code>), schemas for INSTALL and pull requests, ADR mdschema</td></tr>
+                        <tr><td class="mono">rust · python · shell · node</td><td>Toolchain files plus that toolchain's <code>.gitignore</code> fragment, sourced from <code>github/gitignore</code></td></tr>
+                        <tr><td class="mono">tool · module · spine</td><td>README shape and role-specific files</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>Placeholders resolve in both file contents and file <em>names</em>, which is why the shell template can ship a binary literally called <code>bin/${NAME}</code>: <code>${NAME}</code> as the kebab-case slug, <code>${TITLE}</code> as the human title, <code>${BRIEF}</code> as a one-sentence description, <code>${OWNER}</code> as the GitHub owner. Unknown placeholders are left verbatim rather than emptied.</p>
+
+            <div class="note">
+                <span class="label">Do not point the CLI at the repo yet</span>
+                <p>The published skeleton has no <code>lang/</code> or <code>purpose/</code> directories, so <code>rune init --skeleton &lt;clone&gt;</code> against it fails with a missing-layer error. The <code>--with</code> flag documented in its README does not exist in the shipped CLI. The repo was created weeks after the CLI's last push and represents where composition is going, not what runs today. Until the CLI adopts it, leave <code>skeleton</code> unset and use the embedded fallback.</p>
+            </div>
+        </section>
+
+        <!-- ============ 15 ============ -->
+        <section id="crew">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᛟ</span><h2>Crew and ceremony</h2></div>
+
+            <p>This is the part with no real equivalent elsewhere, and it may be the most transferable idea in the org. The work is done by a mixed crew of models with one human reviewer, and the governance is built around that fact rather than pretending otherwise.</p>
+
+            <p>Commit history on the CLI shows the arrangement plainly: the bulk authored by <code>Sol (gpt-5.6-sol)</code>, a substantial share by the human owner, the rest by <code>Claude Fable 5</code> and <code>Grok</code>. ADR frontmatter carries RACI fields, and several decisions record <code>HarnessCouncil</code> as consulted.</p>
+
+            <h3>Attribution</h3>
+            <p>Every commit must answer who wrote it, and which model, from the commit object alone. The orchestrating model goes in the author field; every other contributor, agent or human, gets a <code>Co-Authored-By</code> trailer in the same format: a display name ending in a parenthesized model id, plus a per-model non-routable address. A model working alone commits under its own identity with no trailer.</p>
+            <div class="code"><pre><code>feat: resolve provider targets from module manifest
+
+Co-Authored-By: Claude Fable 5 (claude-fable-5) &lt;…&gt;
+Co-Authored-By: Codex (gpt-5.5) &lt;…&gt;</code></pre></div>
+            <p>A <code>ci/authorship</code> check enforces it over the merge-base-to-head range, failing on an address absent from an <code>authors.yaml</code> allowlist, on a display name with no model id, on the author repeated as a contributor, and on an unresolvable merge base (rather than examining a partial range). Model commits are explicitly unsigned, and no branch rule requires signatures on <code>main</code>.</p>
+
+            <h3>Review</h3>
+            <p>Nothing merges on a single opinion. Automated bots comment on every pull request, at least one agent from a <strong>different vendor than the author</strong> reads the diff, and a human approves and merges. The skeleton's specification turns that into check runs: <code>review/conventions</code> and <code>review/defects</code> on every pull request, plus <code>review/correctness</code> on the owner's own (it spends the owner's subscription, so it is not required of anyone else). Each lane is backed by a different vendor. A lane that cannot produce a verdict stays <em>pending</em> rather than passing. Reviewer instructions load from the base branch, so a pull request cannot edit its own reviewers. Draft pushes skip the lanes entirely.</p>
+            <p>Deterministic checks (tests, lint, secret scan, schema validation, authorship, spec presence) are required independently: a passing review never substitutes for any of them, and every check binds the owner too, since the checks rules admit no bypass. A pull request touching protected paths must carry either a spec change or a <code>spec:none</code> label with a stated reason.</p>
+
+            <h3>Traceability</h3>
+            <p>Releases are sealed by an annotated owner-signed tag verified against a committed <code>KEYS</code> file before anything publishes, with tag creation restricted to the owner. And a <code>Session: &lt;harness&gt;:&lt;session-id&gt;</code> trailer on ceremonial commits means a bisected defect leads back to the session that wrote it, with checkpoint attachment adding the richer walk where it ran. Transcripts are written to the working layer, never into a repository.</p>
+
+            <div class="note">
+                <span class="label">Tension in the current documents</span>
+                <p><code>CONTRIBUTING.md</code> says pull requests squash-merge, so the title becomes the commit message. The skeleton's review-ceremony spec says approved work enters <code>main</code> as a GitHub merge commit preserving every model author and trailer, and the session-recovery spec forbids merge strategies that rewrite commit ids because a rewritten id orphans its checkpoint. Those cannot all hold at once. The specs are the newer and more specific documents, so they probably represent the intended direction, but the contradiction is unresolved in the repos as they stand.</p>
+            </div>
+        </section>
+
+        <!-- ============ 16 ============ -->
+        <section id="position">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᛈ</span><h2>Positioning</h2></div>
+
+            <p>The CLI keeps a parity matrix against <code>with-logic/crew</code>, pinned to a specific upstream commit and dated. Parity is defined honestly as "rune covers the capability its own way", and several rows are marked as covered differently or partial rather than claiming equivalence.</p>
+
+            <div class="scroller">
+                <table>
+                    <thead><tr><th>Capability</th><th>Rune's answer</th></tr></thead>
+                    <tbody>
+                        <tr><td>Source refs with ref grammar sugar</td><td>Local paths or git HTTPS pinned to a full SHA in a committed manifest. Grammar sugar is a stated non-goal.</td></tr>
+                        <tr><td>Registries as any git repo with a skills directory</td><td>Decks: structured repos with <code>deck.yaml</code>, domains, casts, and validation.</td></tr>
+                        <tr><td>Resolved-SHA recording per install</td><td>Manifest fingerprints plus per-file SLSA sidecars, recorded in-tree.</td></tr>
+                        <tr><td>Dependency graph in frontmatter</td><td>Non-goal. Casts express grouping; dependencies between skills stay a deck-authoring concern.</td></tr>
+                        <tr><td>Background autoupdate</td><td>Partial by design. <code>install</code> re-materializes pinned sources, <code>watch</code> monitors locations, and no scheduler exists because deployment stays an explicit reviewable action.</td></tr>
+                        <tr><td>Auto-detect harnesses and copy into each</td><td>A curated provider set with format conversion, not blind copies.</td></tr>
+                        <tr><td>Atomic install with advisory lock</td><td>Partial. Atomic temp-and-rename writes, but no cross-process lock: a single-operator tool by design.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>The three non-goals are worth stating plainly, because they define the tool's shape more than any feature does: no project lockfile or npm-style dependency resolution between skills, no background autoupdate scheduler, and no blind per-harness copies without transformation.</p>
+        </section>
+
+        <!-- ============ TUTORIALS ============ -->
+        <div class="part"><span>Part II · Tutorials</span></div>
+
+        <section id="tutorials">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᛉ</span><h2>Before you start</h2></div>
+
+            <p>Thirteen walkthroughs, in three tracks: consuming a deck, authoring one, then process and extension. Each is self-contained apart from the stated prerequisite, and every command below was checked against the shipped argument definitions rather than the prose documentation, because in a few places those disagree.</p>
+
+            <h3>Conventions that hold everywhere</h3>
+            <div class="scroller">
+                <table>
+                    <thead><tr><th>Convention</th><th>Detail</th></tr></thead>
+                    <tbody>
+                        <tr><td class="mono">--source</td><td>A deck or rune source to read <em>from</em>. Defaults to <code>.</code> on almost every command.</td></tr>
+                        <tr><td class="mono">--target</td><td>A base directory to deploy <em>into</em>, or a deployed tree to inspect. Each provider gets its own subdirectory beneath it, so <code>--target ~</code> writes <code>~/.claude</code>, <code>~/.codex</code>, and the rest. Never pass <code>--target ~/.claude</code>.</td></tr>
+                        <tr><td class="mono">--upstream</td><td>A second source tree to compare against. Mutually exclusive with <code>--target</code> on <code>drift</code>.</td></tr>
+                        <tr><td class="mono">--json</td><td>Global. Inspection commands emit structured output; staging commands print plain text.</td></tr>
+                        <tr><td class="mono">--no-color</td><td>Global. Reaches every writer, so piped output stays clean.</td></tr>
+                        <tr><td>Exit codes</td><td><code>0</code> success, <code>1</code> errors occurred, <code>2</code> fatal. Worth branching on in scripts rather than grepping output.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="note">
+                <span class="label">Practice somewhere disposable</span>
+                <p>Several tutorials deliberately damage a deployed tree to watch the repair path work. Do them in a scratch directory, not in a repo you care about. Where a command writes outside the working directory, it is called out in the step.</p>
+            </div>
+        </section>
+
+        <!-- ---------- TRACK A ---------- -->
+        <section id="t-setup">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᛇ</span><h2>Track A · Consuming a deck</h2></div>
+
+            <div class="tut">
+                <div class="tut-head">
+                    <div class="tut-eyebrow"><b>1</b><span>First run</span></div>
+                    <h3>Install the CLI and teach it where things live</h3>
+                </div>
+                <p class="goal"><b>Goal</b> A working <code>rune</code>, a configured deck, shell completion, and an agent that knows how to drive the tool.</p>
+
+                <ol class="steps">
+                    <li><div class="step-body">
+                        <p>Install. The formula compiles from source, so a Rust toolchain is pulled in as a build dependency and the first install is slow.</p>
+                        <div class="code"><pre><code>brew install runedeck/tap/rune
+rune --version    <span class="c"># version, build commit, build time</span></code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Run guided setup. It discovers decks under your development directory and persists the choice. <code>--defaults</code> accepts everything without prompting, which is what CI wants.</p>
+                        <div class="code"><pre><code>rune setup</code></pre></div>
+                        <p class="expect"><b>Expect</b> A report of the deck it found, your target binding, and follow-up steps. Setup does not overwrite a choice you already made.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Inspect and adjust the resolved configuration. <code>get</code> prints one raw value and exits non-zero when unset, which makes it safe in a shell conditional.</p>
+                        <div class="code"><pre><code>rune config             <span class="c"># every key, with where each value came from</span>
+rune config path        <span class="c"># ~/.config/rune/config.yaml</span>
+rune config get deck
+rune config set deck ~/Developer/runedeck/deck
+rune config get targets <span class="c"># where `rune init &lt;slug&gt;` creates projects, default ~/Agents</span></code></pre></div>
+                        <p class="expect"><b>Expect</b> Resolution order is environment variable, then config file, then built-in default. <code>RUNE_DECK</code> overrides the configured deck for one command without editing anything.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Install completions. The installer writes to the shell's standard location and detects the shell from <code>$SHELL</code> when you omit it. It also clears the zsh compinit dump, so a stale cache cannot shadow the fresh script.</p>
+                        <div class="code"><pre><code>rune completion install           <span class="c"># bash | zsh | fish | powershell | nushell</span>
+rune completion print zsh &gt; /tmp/_rune   <span class="c"># or generate it yourself</span></code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Install the agent skill. This writes a <code>SKILL.md</code> that teaches an AI coding CLI how to drive <code>rune</code>: which command to run first, which flags are safe to script, and which actions need a human.</p>
+                        <div class="code"><pre><code>rune skill show                  <span class="c"># read it before installing</span>
+rune skill install               <span class="c"># default ~/.claude/skills</span>
+rune skill install --dir ./my-project   <span class="c"># project scope</span></code></pre></div>
+                        <p class="expect"><b>Expect</b> With <code>--dir</code>, the argument is treated as a project root and the skill lands under <code>&lt;dir&gt;/.claude/skills/rune/</code>.</p>
+                    </div></li>
+                </ol>
+            </div>
+
+            <div class="tut" id="t-deploy">
+                <div class="tut-head">
+                    <div class="tut-eyebrow"><b>2</b><span>Scaffold and deploy</span></div>
+                    <h3>From an empty directory to deployed instructions</h3>
+                </div>
+                <p class="goal"><b>Goal</b> A new project carrying runes from a deck, deployed to every provider. <b>Needs</b> Tutorial 1.</p>
+
+                <ol class="steps">
+                    <li><div class="step-body">
+                        <p>Scaffold. A bare slug creates the project under your configured targets root; an existing directory is scaffolded in place. Preview first: <code>--dry-run</code> prints the full plan including side-effect steps.</p>
+                        <div class="code"><pre><code>rune init weather-stats --lang rust --purpose tool \
+    --brief "Warns the crew" --dry-run
+rune init weather-stats --lang rust --purpose tool --brief "Warns the crew" --bind</code></pre></div>
+                        <p class="expect"><b>Expect</b> <code>~/Agents/weather-stats</code> with hooks, CI, Makefile, licence, and agent briefs, git initialized. <code>--bind</code> makes it the active target in the same step.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Bind the target if you did not use <code>--bind</code>. Binding is what lets you run staging commands from anywhere.</p>
+                        <div class="code"><pre><code>rune target weather-stats     <span class="c"># slug, path, or &lt;owner&gt;/&lt;name&gt;</span>
+rune target --list            <span class="c"># recent targets, active one marked</span>
+rune target -                 <span class="c"># jump back to the previous target</span>
+rune target                   <span class="c"># show the current binding</span></code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Stage what you want. Three granularities, all writing into the same <code>.rune</code> manifest. Staging does not install.</p>
+                        <div class="code"><pre><code>rune add --cast development              <span class="c"># a named selection</span>
+rune add meta                            <span class="c"># a whole domain</span>
+rune add meta/skills/rune                <span class="c"># one fully qualified id</span>
+rune skill add deslop,version-control    <span class="c"># by bare name, comma-separated</span>
+rune agent add TheOpponent
+rune rule add Deslop</code></pre></div>
+                        <p class="expect"><b>Expect</b> An ambiguous bare name fails loudly and lists every candidate; retry as <code>&lt;domain&gt;/&lt;name&gt;</code>. Adds are idempotent and rewrite <code>.rune</code> atomically.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Browse before committing to a selection. A bare kind noun lists that collection with staged markers.</p>
+                        <div class="code"><pre><code>rune skill        <span class="c"># every skill the deck offers, staged ones marked</span>
+rune rule
+rune provider     <span class="c"># providers with enabled state, target, plugin</span>
+rune find review  <span class="c"># relevance search across local and watched sources</span>
+rune find review --kind skill</code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Confirm where you are before writing anything. This is the command an agent should run first, and the one that saves you from deploying into the wrong repo.</p>
+                        <div class="code"><pre><code>rune context
+rune context --json</code></pre></div>
+                        <p class="expect"><b>Expect</b> The acting root and role (consumer, deck, module, or plain), the target binding, the manifest selection, per-provider deploy state, active spec changes, and a suggested <code>next:</code> step.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Install. In consumer mode the target defaults to the source, so from inside the project this needs no flags. Preview the pruning first.</p>
+                        <div class="code"><pre><code>cd ~/Agents/weather-stats
+rune install --dry-run     <span class="c"># what would be pruned, nothing written</span>
+rune install</code></pre></div>
+                        <p class="expect"><b>Expect</b> <code>.claude/</code>, <code>.codex/</code>, <code>.gemini/</code>, and <code>.opencode/</code> appear, each with a <code>.manifest</code>. Claude skills land inside the plugin root <code>.claude/skills/rune/</code> and load namespaced as <code>rune:&lt;skill&gt;</code>.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Verify, then make it a habit. These two are the whole maintenance story.</p>
+                        <div class="code"><pre><code>rune drift --target .     <span class="c"># deployed content still matches source?</span>
+rune doctor --target .    <span class="c"># ok / modified / missing / orphan per file</span></code></pre></div>
+                    </div></li>
+                </ol>
+            </div>
+
+            <div class="tut" id="t-anatomy">
+                <div class="tut-head">
+                    <div class="tut-eyebrow"><b>3</b><span>Read what landed</span></div>
+                    <h3>The four files that explain everything</h3>
+                </div>
+                <p class="goal"><b>Goal</b> Be able to answer "where did this instruction come from?" without guessing. <b>Needs</b> Tutorial 2.</p>
+
+                <ol class="steps">
+                    <li><div class="step-body">
+                        <p>Read your own manifest. This is the committed, reviewable statement of what the project draws.</p>
+                        <div class="code"><pre><code><span class="c"># .rune</span>
+<span class="k">version</span>: 2
+<span class="k">sources</span>:
+    deck:
+        local: ../runedeck/deck
+        <span class="c"># path: runes/science   # optional: scope to one domain</span>
+<span class="k">runes</span>:
+    deck:
+        casts: [development]
+        skills: [meta/skills/rune]
+        agents: []
+        exclude: [meta/skills/noisy-thing]
+<span class="k">dirs</span>:                         <span class="c"># schema 2 only</span>
+    - path: wiki
+      role: wiki
+      required: true</code></pre></div>
+                        <p class="expect"><b>Expect</b> Unknown keys are rejected outright. <code>dirs:</code> requires <code>version: 2</code>, and its paths must be relative; machine-specific absolute paths belong in a gitignored <code>.rune.local</code>.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Look at what was deployed, and at rune's record of it. The manifest is per provider directory, and the plugin tree carries its own.</p>
+                        <div class="code"><pre><code>ls -a .claude
+cat .claude/.manifest
+cat .claude/skills/rune/.manifest
+ls .claude/rules/.provenance/</code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Trace one file back to its sources. The sidecar names every input that combined to produce it, including which override won.</p>
+                        <div class="code"><pre><code>rune provenance --target .claude/rules/UseRTK.md
+rune provenance --target .claude                    <span class="c"># scan, grouped by source rune</span>
+rune provenance --target .claude --show-orphans     <span class="c"># files with no record</span>
+rune provenance --target .claude --source-uri https://github.com/someone/skill</code></pre></div>
+                        <p class="expect"><b>Expect</b> Orphans are files rune did not put there. In a shared directory that is normal; in a rune-managed one it means something else is writing.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Get the same information as data. Every inspection command takes <code>--json</code>, which is how an agent or a CI job should read state.</p>
+                        <div class="code"><pre><code>rune doctor --target . --json
+rune status --json
+rune drift --target . --json</code></pre></div>
+                    </div></li>
+                </ol>
+            </div>
+
+            <div class="tut" id="t-pin">
+                <div class="tut-head">
+                    <div class="tut-eyebrow"><b>4</b><span>Pin a remote deck</span></div>
+                    <h3>Make a selection reproducible for everyone who clones</h3>
+                </div>
+                <p class="goal"><b>Goal</b> Draw content from a deck over git, pinned so the same manifest always produces the same files.</p>
+
+                <ol class="steps">
+                    <li><div class="step-body">
+                        <p>Resolve a commit to pin to. Nothing else is accepted: no branches, no tags, no shorthand, no userinfo in the URL, HTTPS only. A fetch or checkout failure is a hard error rather than a fallback.</p>
+                        <div class="code"><pre><code>git ls-remote https://github.com/runedeck/deck main</code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Stage against the pinned source. The <code>--ref</code> flag takes the full 40-character lowercase hex SHA.</p>
+                        <div class="code"><pre><code>rune add meta/skills/rune \
+    --source https://github.com/runedeck/deck \
+    --ref 0123456789abcdef0123456789abcdef01234567</code></pre></div>
+                        <p class="expect"><b>Expect</b> For a git source, unknown ids and ambiguous names are checked at install rather than at add, and rune prints a note saying so. Local sources resolve eagerly and fail immediately.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Install. The pinned tree is cloned into a content-addressed cache and materialized into a per-SHA worktree, so repeat installs and other projects on the same pin cost nothing.</p>
+                        <div class="code"><pre><code>rune install
+ls ~/.cache/rune/git/          <span class="c"># RUNE_GIT_CACHE_DIR overrides this</span></code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Upgrade deliberately. There is no autoupdate by design: bumping the pin is an edit to a committed file, so it shows up in review like any other change.</p>
+                        <div class="code"><pre><code><span class="c"># edit the `ref:` in .rune, then</span>
+rune install --dry-run
+rune install
+git diff .rune</code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Keep an eye on sources you do not pin. The watchlist monitors locations so <code>rune find</code> can search them and you can see when something moved.</p>
+                        <div class="code"><pre><code>rune watch add ~/Developer/runedeck/deck
+rune watch git https://github.com/runedeck/deck --ref 0123456789abcdef0123456789abcdef01234567
+rune watch list
+rune watch remove ~/Developer/runedeck/deck</code></pre></div>
+                    </div></li>
+                </ol>
+            </div>
+
+            <div class="tut" id="t-repair">
+                <div class="tut-head">
+                    <div class="tut-eyebrow"><b>5</b><span>Override and repair</span></div>
+                    <h3>Customize without forking, and recover from damage</h3>
+                </div>
+                <p class="goal"><b>Goal</b> Learn the one rule that keeps this system coherent, then break a deployment on purpose and repair it. <b>Needs</b> Tutorial 2.</p>
+
+                <ol class="steps">
+                    <li><div class="step-body">
+                        <p><strong>The rule: never edit a deployed file.</strong> Provider directories are build output. Edit the deck source and reinstall, or add a <code>user/</code> override. Everything below is a demonstration of what the tool does when you break that rule.</p>
+                        <div class="code"><pre><code><span class="c"># in the DECK, not the target</span>
+mkdir -p rules/user
+cp rules/UseRTK.md rules/user/UseRTK.md
+$EDITOR rules/user/UseRTK.md</code></pre></div>
+                        <p class="expect"><b>Expect</b> <code>user/</code> is git-ignored and wins over the base file at assembly. A file that exists <em>only</em> in <code>user/</code> still deploys, flat, alongside the rest.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Reinstall and confirm the override took, by reading the provenance rather than trusting the output.</p>
+                        <div class="code"><pre><code>rune install
+rune provenance --target .claude/rules/UseRTK.md</code></pre></div>
+                        <p class="expect"><b>Expect</b> <code>resolvedDependencies</code> lists both the base file and the <code>user/</code> file, so the sidecar records not just the result but the resolution.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Now damage the deployment three ways and see each state reported distinctly.</p>
+                        <div class="code"><pre><code>echo "hand edit" &gt;&gt; .claude/rules/UseRTK.md   <span class="c"># → modified</span>
+rm .claude/rules/SomeOther.md                 <span class="c"># → missing</span>
+touch .claude/rules/StrayFile.md              <span class="c"># → orphan</span>
+rune doctor --target .</code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Repair conservatively. This restores what is missing and quarantines what is unaccounted for, and it will not touch your hand edit.</p>
+                        <div class="code"><pre><code>rune doctor --target . --repair
+rune doctor --target . --verify    <span class="c"># exits non-zero if anything is broken: use in CI</span></code></pre></div>
+                        <p class="expect"><b>Expect</b> The missing file returns, the stray is quarantined, and the modified file stays modified. Overwriting a human edit takes a separate deliberate command.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Decide what to do about the edit. Either promote it into the source as a <code>user/</code> override, or discard it.</p>
+                        <div class="code"><pre><code>rune install --force        <span class="c"># overwrite user-modified files</span></code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Understand pruning and recovery. Removing a rune from your selection and reinstalling prunes it, but pruned files are quarantined rather than deleted.</p>
+                        <div class="code"><pre><code>rune install --dry-run      <span class="c"># see the prune list first</span>
+rune install
+ls .trash/                  <span class="c"># quarantined by UTC timestamp</span>
+rune install --no-prune     <span class="c"># leave stale files alone</span>
+rune clean                  <span class="c"># remove files from previous installs</span></code></pre></div>
+                        <p class="expect"><b>Expect</b> <code>--only &lt;prefix&gt;</code> deploys a subset and implies <code>--no-prune</code>, because a partial deploy has no business deciding what is stale.</p>
+                    </div></li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- ---------- TRACK B ---------- -->
+        <section id="t-authoring">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᛜ</span><h2>Track B · Authoring a deck</h2></div>
+
+            <div class="tut">
+                <div class="tut-head">
+                    <div class="tut-eyebrow"><b>6</b><span>Author a domain</span></div>
+                    <h3>Write a rune and validate it before anyone consumes it</h3>
+                </div>
+                <p class="goal"><b>Goal</b> A valid module carrying a skill, an agent, and a rule, checked by the same validator CI runs.</p>
+
+                <ol class="steps">
+                    <li><div class="step-body">
+                        <p>Scaffold a module. This is a different scaffold from the project one, reached through <code>--module</code>, and it conflicts with the language and purpose flags.</p>
+                        <div class="code"><pre><code>rune init --module ~/Developer/my-deck-domain
+cd ~/Developer/my-deck-domain
+cat module.yaml</code></pre></div>
+                        <p class="expect"><b>Expect</b> <code>module.yaml</code>, <code>defaults.yaml</code>, and the kind directories. Inside a full deck, a domain is just a directory under <code>runes/</code> with a <code>module.yaml</code> whose <code>name</code> equals the directory name. There is no registry to edit.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Write a skill. The name must be kebab-case and must equal its directory, matching what the loader enforces at runtime.</p>
+                        <div class="code"><pre><code><span class="c"># skills/weather-lookup/SKILL.md</span>
+---
+<span class="k">name</span>: weather-lookup
+<span class="k">description</span>: "Fetch and summarize station observations. USE WHEN weather, forecast, station data."
+<span class="k">version</span>: 0.1.0
+---
+
+<span class="c"># weather-lookup</span>
+
+Body long enough to actually instruct the model...</code></pre></div>
+                        <p class="expect"><b>Expect</b> Validation rejects a PascalCase skill name at author time rather than letting it fail at load. Warnings also cover a name over 64 characters, a description over 1024, reserved words in names, angle brackets in frontmatter, a description with no trigger phrase, and a body too short to instruct.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Validate constantly. The default run is in-process and fast; the scanning run is slow and belongs in hooks.</p>
+                        <div class="code"><pre><code>rune validate                    <span class="c"># schemas, structure, mdschema, manifest drift</span>
+rune validate --scan             <span class="c"># + gitleaks and semgrep, for commit and push hooks</span>
+rune validate --source ../deck   <span class="c"># whole deck: every domain, one aggregate report</span></code></pre></div>
+                        <p class="expect"><b>Expect</b> Validate refuses a root carrying neither <code>deck.yaml</code> nor <code>module.yaml</code> unless you pass <code>--force</code>, so a stray run cannot walk an unrelated directory. At deck level it also fails on cross-domain deploy-path collisions.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Survey the whole deck at a glance, in the terminal or the browser. The dashboard is read-only and loopback-bound by design.</p>
+                        <div class="code"><pre><code>rune status --source ~/Developer/runedeck/deck
+rune tui --source ~/Developer/runedeck/deck
+rune dashboard --source ~/Developer/runedeck/deck   <span class="c"># port 40000, falls back to 40001</span></code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Package a domain for distribution. Against a deck root the domain argument is required, because a deck holds many.</p>
+                        <div class="code"><pre><code>rune release my-domain --source ~/Developer/runedeck/deck
+rune release --format cowork      <span class="c"># the assembled claude plugin tree as an upload zip</span></code></pre></div>
+                        <p class="expect"><b>Expect</b> Tarballs include <code>.provenance/</code> and <code>.manifest</code>, so an extracted tarball can be verified without re-running assembly.</p>
+                    </div></li>
+                </ol>
+            </div>
+
+            <div class="tut" id="t-import">
+                <div class="tut-head">
+                    <div class="tut-eyebrow"><b>7</b><span>Import upstream</span></div>
+                    <h3>Adopt someone else's skill without losing the trail</h3>
+                </div>
+                <p class="goal"><b>Goal</b> Bring an external skill into your deck with recorded attribution, then detect when the upstream moves. <b>Needs</b> Tutorial 6.</p>
+
+                <ol class="steps">
+                    <li><div class="step-body">
+                        <p>Plan the import before writing anything. Always start here: it prints the fetch, the placement, and the sidecar without touching disk.</p>
+                        <div class="code"><pre><code>rune import https://example.com/some/SKILL.md \
+    --module . --name WeatherLookup --dry-run</code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Import a single file, or a whole local tree. Tree import aligns <code>SKILL.md</code> to the target name and copies every companion byte-for-byte: markdown references, worker prompts, scripts, binary assets.</p>
+                        <div class="code"><pre><code>rune import https://example.com/some/SKILL.md --module . --name WeatherLookup
+rune import ~/Downloads/some-skill-dir --module . --name WeatherLookup \
+    --source-url https://github.com/someone/their-repo</code></pre></div>
+                        <p class="expect"><b>Expect</b> Every imported file gets its own regenerated sidecar. The upstream's own <code>.provenance/</code> directories are ignored rather than copied. <code>--source-url</code> is how a local checkout still records where it came from.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Import a companion file rather than a skill, or a different kind entirely.</p>
+                        <div class="code"><pre><code>rune import https://example.com/reference.md --module . \
+    --name WeatherLookup --companion Reference.md
+rune import https://example.com/agent.md --module . --kind agent</code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Compare against upstream later. Drift separates frontmatter from body and reports which keys changed, so expected per-project differences can be suppressed instead of drowning the signal.</p>
+                        <div class="code"><pre><code>rune drift --upstream ../their-checkout
+rune drift --upstream ../their-checkout --ignore project,author
+rune drift --upstream ../their-checkout --ignore body   <span class="c"># frontmatter only</span>
+rune drift --upstream ../their-checkout --all           <span class="c"># show unchanged too</span></code></pre></div>
+                        <p class="expect"><b>Expect</b> By default only drifted entries are listed, with identical ones counted. Deliberately ignored drift still shows, marked as expected, so suppression never becomes invisible.</p>
+                    </div></li>
+                </ol>
+            </div>
+
+            <div class="tut" id="t-variants">
+                <div class="tut-head">
+                    <div class="tut-eyebrow"><b>8</b><span>Variants and providers</span></div>
+                    <h3>One source, different instructions per harness and per model</h3>
+                </div>
+                <p class="goal"><b>Goal</b> Give Gemini different wording from Claude, and a newer model different wording from an older one, without duplicating a file.</p>
+
+                <ol class="steps">
+                    <li><div class="step-body">
+                        <p>Lay out the qualifiers. Subdirectories are organizational and flatten at assembly, most specific winning.</p>
+                        <div class="code"><pre><code>rules/UseRTK.md                       <span class="c"># base, lowest precedence</span>
+rules/gemini/UseRTK.md                <span class="c"># provider variant</span>
+rules/claude/claude-opus-4/UseRTK.md  <span class="c"># provider + model variant</span>
+rules/user/UseRTK.md                  <span class="c"># yours, highest precedence</span></code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Assemble without deploying, then read the build tree. This is the fastest way to understand what a transform actually does.</p>
+                        <div class="code"><pre><code>rune assemble
+find build -type f | head -40
+diff rules/UseRTK.md build/claude/rules/UseRTK.md    <span class="c"># frontmatter and ref links gone</span>
+cat build/codex/agents/*.toml                        <span class="c"># markdown agent converted</span></code></pre></div>
+                        <p class="expect"><b>Expect</b> <code>build/</code> is transient and wiped on every assemble. Never put anything there you want to keep.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Select a model variant explicitly, overriding each provider's configured default.</p>
+                        <div class="code"><pre><code>rune assemble --model claude-opus-4
+rune install --model claude-opus-4</code></pre></div>
+                        <p class="expect"><b>Expect</b> The id must match <code>config/models.yaml</code> exactly, and it is ignored for providers that have no such variant.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Narrow the deployment. Provider selection is repeatable, and the target is a base directory that each provider extends.</p>
+                        <div class="code"><pre><code>rune install --target ~/project --provider opencode
+rune install --target ~/project --provider claude --provider codex
+rune install --target ~ --only rules/          <span class="c"># subset; implies --no-prune</span>
+rune deploy --target ~/project                 <span class="c"># from an existing build/, no reassembly</span></code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Change the default provider set for a source. This writes into the local gitignored config rather than the committed defaults.</p>
+                        <div class="code"><pre><code>rune provider                       <span class="c"># name, enabled, target, plugin</span>
+rune provider enable agentskills    <span class="c"># opt-in .agents layout</span>
+rune provider disable gemini</code></pre></div>
+                        <p class="expect"><b>Expect</b> A disabled provider is still reachable with an explicit <code>--provider</code>, so disabling changes the default set rather than removing the capability.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>When you want files placed with no transformation at all, use copy. It has no manifest tracking, which means no drift detection and no pruning: a deliberate trade.</p>
+                        <div class="code"><pre><code>rune copy --source ./my-domain --target ~/somewhere
+rune copy --source ./my-domain --target ~/somewhere --skip-provenance</code></pre></div>
+                    </div></li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- ---------- TRACK C ---------- -->
+        <section id="t-spec">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᛞ</span><h2>Track C · Process and extension</h2></div>
+
+            <div class="tut">
+                <div class="tut-head">
+                    <div class="tut-eyebrow"><b>9</b><span>Spec lifecycle</span></div>
+                    <h3>Propose a change, hand it to an agent, archive it</h3>
+                </div>
+                <p class="goal"><b>Goal</b> Run one capability change from proposal to merged current truth, the way the CLI's own repo does.</p>
+
+                <ol class="steps">
+                    <li><div class="step-body">
+                        <p>Decide whether you need the ceremony at all. The project's own guidance: use a change folder for multi-session or multi-file work, and send small local fixes straight through the ordinary edit, test, review loop.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Propose. The change id is stable and kebab-case; capabilities are repeatable and default to the change id.</p>
+                        <div class="code"><pre><code>rune spec propose improve-discovery --capability discovery
+rune spec propose wide-change --capability discovery --capability search --design</code></pre></div>
+                        <p class="expect"><b>Expect</b> <code>docs/changes/improve-discovery/</code> with <code>proposal.md</code>, a delta spec per capability under <code>specs/</code>, and <code>tasks.md</code>. <code>--design</code> adds <code>design.md</code>, which later shows up in both <code>show</code> and <code>context</code>.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Fill in the delta. Requirements are normative, scenarios are executable-shaped, and the change spec uses explicit operation headings.</p>
+                        <div class="code"><pre><code><span class="c">## ADDED Requirements</span>
+
+<span class="c">### Requirement: Ranked Discovery</span>
+
+The system SHALL rank discovery results by name, then trigger text,
+then description.
+
+<span class="c">#### Scenario: Exact name match</span>
+
+- **WHEN** a query exactly matches a rune name
+- **THEN** that rune sorts first</code></pre></div>
+                        <p class="expect"><b>Expect</b> Link the relevant ADR from <code>proposal.md</code>. ADRs stay canonical for <em>why</em>; a design cites one rather than repeating it. Where a scenario is already enforced by an executable check, cite the check instead of restating it in prose.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Survey the tree, then hand the work to an agent. <code>context</code> is the apply entry point: a single work order with unchecked tasks highlighted.</p>
+                        <div class="code"><pre><code>rune spec list                      <span class="c"># active changes and task completion</span>
+rune spec list --sort progress      <span class="c"># least complete first</span>
+rune spec list --specs              <span class="c"># canonical specs with requirement counts</span>
+rune spec show improve-discovery
+rune spec context improve-discovery
+rune spec context improve-discovery --json</code></pre></div>
+                        <p class="expect"><b>Expect</b> If a name is both a change and a capability, <code>show</code> disambiguates by listing both forms.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Check the tree's health as work proceeds. This exits non-zero on a broken change, so it belongs in CI.</p>
+                        <div class="code"><pre><code>rune spec doctor</code></pre></div>
+                        <p class="expect"><b>Expect</b> A change missing its proposal or delta is an error. An empty checklist, or a complete-but-unarchived change, is a warning. Otherwise it reports the tree healthy.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Archive. Normal archive merges the delta into current truth and refuses to run while tasks remain unchecked. Work that will not ship must still end explicitly.</p>
+                        <div class="code"><pre><code>rune validate
+rune spec archive improve-discovery
+rune spec archive improve-discovery -y          <span class="c"># override unchecked tasks, with a warning</span>
+rune spec archive dead-end --abandon            <span class="c"># no merge; stamps status: abandoned</span></code></pre></div>
+                        <p class="expect"><b>Expect</b> Both paths move the change into the dated archive. Abandoning performs no spec merge at all.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Interoperate with OpenSpec tooling if you need to. Conversion moves the layout without rewriting artifact bodies.</p>
+                        <div class="code"><pre><code>rune spec export --openspec     <span class="c"># write openspec/ from the native docs root</span>
+rune spec import --openspec     <span class="c"># bring an openspec/ tree back in</span></code></pre></div>
+                    </div></li>
+                </ol>
+            </div>
+
+            <div class="tut" id="t-docs">
+                <div class="tut-head">
+                    <div class="tut-eyebrow"><b>10</b><span>Decisions and tasks</span></div>
+                    <h3>Keep the reasoning and the backlog inside the repo</h3>
+                </div>
+                <p class="goal"><b>Goal</b> Record a decision, supersede it later, keep docs links honest, and track work without leaving the repo.</p>
+
+                <ol class="steps">
+                    <li><div class="step-body">
+                        <p>Write a decision record. Numbering is per prefix and drawn from a configured set, so <code>CLI-</code> and <code>ARCH-</code> keep independent sequences.</p>
+                        <div class="code"><pre><code>rune adr new "Launch Profile Composition" --prefix CLI
+rune adr list      <span class="c"># every record with status</span>
+rune adr index     <span class="c"># regenerate the decisions index table</span></code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Retire a decision properly. Superseding flips the old record's status and cross-links the replacement in both directions, which is what makes the trail followable years later.</p>
+                        <div class="code"><pre><code>rune adr supersede CLI-0018 CLI-0021</code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Check the docs tree. This catches broken internal links, unresolved wikilinks, and orphan pages, and it knows to exempt the trees other commands manage.</p>
+                        <div class="code"><pre><code>rune docs check
+rune docs dev      <span class="c"># local preview, shells out to `mint dev` when docs.json exists</span></code></pre></div>
+                        <p class="expect"><b>Expect</b> <code>changes/</code> and <code>specs/</code> belong to <code>rune spec</code>, <code>decisions/</code> to <code>rune adr</code>. Their members are reached through tooling, not page links, so they are not reported as orphans.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Track tasks in plain todo.txt syntax at the repo root, with priorities, projects, contexts, and due dates.</p>
+                        <div class="code"><pre><code>rune todo add "(A) fix the discovery ranking +rune @cli due:2026-08-01"
+rune todo ls
+rune todo ls +rune        <span class="c"># by project</span>
+rune todo ls @cli         <span class="c"># by context</span>
+rune todo ls "(A)"        <span class="c"># by priority</span>
+rune todo do 3            <span class="c"># complete by 1-based list position</span></code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Move tasks between the repo and a notes vault. The transform runs both directions through one item model that preserves unknown extensions.</p>
+                        <div class="code"><pre><code>rune todo obsidian &gt; ~/vault/Inbox/rune.md   <span class="c"># emit Obsidian Tasks markdown</span>
+rune todo import ~/vault/Inbox/rune.md       <span class="c"># pull `- [ ]` lines back in</span>
+rune todo --all                              <span class="c"># aggregate across `dirs:` members</span></code></pre></div>
+                        <p class="expect"><b>Expect</b> <code>--all</code> needs a schema 2 <code>.rune</code> with a <code>dirs:</code> section. A missing required member is an error; a missing optional one is noted and skipped.</p>
+                    </div></li>
+                </ol>
+            </div>
+
+            <div class="tut" id="t-review">
+                <div class="tut-head">
+                    <div class="tut-eyebrow"><b>11</b><span>Review in the TUI</span></div>
+                    <h3>Read a diff, leave comments, hand them to an agent</h3>
+                </div>
+                <p class="goal"><b>Goal</b> Use the terminal UI as a review surface and export the result as an agent-ready work order.</p>
+
+                <ol class="steps">
+                    <li><div class="step-body">
+                        <p>Open it. From a target it shows your deployment; with an explicit source it shows the deck. <code>?</code> opens the keymap, which is the real documentation.</p>
+                        <div class="code"><pre><code>rune tui
+rune tui --source ~/Developer/runedeck/deck
+rune tui --edit     <span class="c"># straight into the consumer checkbox editor</span></code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Navigate. Miller columns move deck, then kind, then rune; the code view is vim-shaped.</p>
+                        <div class="code"><pre><code>/          filter within the current pane
+!          show problems only
+j k        move; 12j jumps twelve (Esc cancels a count)
+gg G zz    top, bottom, center
+[[ ]]      previous and next section
+/ n N      search within the file
+V          visual selection</code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Comment and edit. Comments persist to <code>.rune-comments.yaml</code> at the target root as local working state, which new scaffolds already ignore.</p>
+                        <div class="code"><pre><code>c          open the comment box (Enter saves, Tab cycles the kind)
+e          edit in the built-in editor
+E          hand off to $EDITOR
+o          create a user/ override for this rune
+y          copy the rendered review to the clipboard</code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Export what you wrote. Markdown is the agent-ready form and carries the source lines each comment refers to.</p>
+                        <div class="code"><pre><code>rune review list
+rune review export --format markdown
+rune review export --target ~/Agents/weather-stats</code></pre></div>
+                        <p class="expect"><b>Expect</b> Without <code>--target</code>, both commands check the current directory first and fall back to the bound target.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Inspect the TUI headlessly, which is how you script it or debug a layout without a terminal.</p>
+                        <div class="code"><pre><code>rune tui --snapshot --width 120 --height 40
+rune tui --snapshot --keys "j j &lt;Enter&gt;" --drill 2 --tab provenance</code></pre></div>
+                    </div></li>
+                </ol>
+            </div>
+
+            <div class="tut" id="t-launch">
+                <div class="tut-head">
+                    <div class="tut-eyebrow"><b>12</b><span>Launch profiles</span></div>
+                    <h3>Start a coding tool through a composed environment</h3>
+                </div>
+                <p class="goal"><b>Goal</b> Point a harness at a different model or endpoint, and stack observability or a proxy in front of it, without writing a shell wrapper.</p>
+
+                <ol class="steps">
+                    <li><div class="step-body">
+                        <p>See what is available. A bare invocation lists known tools with their install state and any profiles you have defined.</p>
+                        <div class="code"><pre><code>rune launch</code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Define a profile in the user config. Secrets are references, never values: an unset reference is a hard error rather than a silent empty string.</p>
+                        <div class="code"><pre><code><span class="c"># ~/.config/rune/config.yaml</span>
+<span class="k">launch</span>:
+    profiles:
+        claude:
+            sol:
+                env:
+                    ANTHROPIC_BASE_URL: http://localhost:4000
+                    ANTHROPIC_MODEL: gpt-5.6-sol
+                    ANTHROPIC_API_KEY: { from_env: LITELLM_MASTER_KEY }
+                args: []
+                with: []
+        codex:
+            deep:
+                args: ["-m", "gpt-5.6-sol", "-c", "model_reasoning_effort=xhigh"]</code></pre></div>
+                        <p class="expect"><b>Expect</b> Profiles resolve from the user config only. Repo-level definitions are deliberately excluded so an untrusted repository cannot redirect your credentials.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Always dry-run first. This prints the resolved plan and the final argv, with sensitive values redacted, and spawns nothing.</p>
+                        <div class="code"><pre><code>rune launch claude@sol --dry-run
+rune launch claude@sol --dry-run --json</code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Compose middleware. Order is explicit and deterministic; a conflicting key warns and the later value wins. <code>--tmux</code> is appended last so it encloses everything before it.</p>
+                        <div class="code"><pre><code>rune launch claude --with otel,presidio
+rune launch claude --with docker --tmux=work
+rune launch claude --direct                  <span class="c"># clear the configured chain</span>
+rune launch claude -- --resume               <span class="c"># args after -- go to the tool</span></code></pre></div>
+                        <p class="expect"><b>Expect</b> Built-ins cover <code>pxpipe</code>, <code>otel</code>, <code>presidio</code>, <code>squid</code>, <code>docker</code>, and <code>tmux</code>. An unknown name <code>foo</code> resolves to an executable <code>rune-launch-mw-foo</code>, which receives the plan as JSON on stdin and returns a JSON patch on stdout.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Two conveniences worth knowing: for ollama, a profile name with no matching profile is treated as a model, and any unrecognized verb falls through to an external executable, git-style.</p>
+                        <div class="code"><pre><code>rune launch ollama@llama3     <span class="c"># dispatches `ollama run llama3`</span>
+rune mycommand --flag         <span class="c"># runs rune-mycommand if it is on PATH</span></code></pre></div>
+                    </div></li>
+                </ol>
+            </div>
+
+            <div class="tut" id="t-exec">
+                <div class="tut-head">
+                    <div class="tut-eyebrow"><b>13</b><span>Scripts in skills</span></div>
+                    <h3>Give a skill executable capability</h3>
+                </div>
+                <p class="goal"><b>Goal</b> Ship a script next to a skill's instructions and run it through a contract that validates its output.</p>
+
+                <ol class="steps">
+                    <li><div class="step-body">
+                        <p>Declare the script in the skill's frontmatter, next to <code>SKILL.md</code>.</p>
+                        <div class="code"><pre><code><span class="c"># skills/weather-lookup/SKILL.md</span>
+---
+<span class="k">name</span>: weather-lookup
+<span class="k">description</span>: "Fetch station observations. USE WHEN weather, station data."
+<span class="k">exec</span>:
+    script: fetch.py
+    outputSchema: output.schema.json
+---</code></pre></div>
+                        <p class="expect"><b>Expect</b> Without an <code>exec:</code> block and without <code>--script</code>, the run exits with code 3 and tells you to declare one.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Write the script. Rune invokes it through an interpreter chosen by extension, so it needs no executable bit and you pick nothing.</p>
+                        <div class="code"><pre><code>.py          → uv run
+.sh .bash    → bash
+.ts          → deno run
+.js .mjs     → node</code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Preview the resolved command and the environment that will be injected.</p>
+                        <div class="code"><pre><code>rune exec weather-lookup --dry-run</code></pre></div>
+                        <p class="expect"><b>Expect</b> The child receives <code>RUNE_ROOT</code>, <code>RUNE_SKILL_DIR</code>, the resolved <code>RUNE_*</code> ontology, and <code>CI=1</code>.</p>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Run it. A JSON input object arrives on stdin and is also flattened into <code>INPUT_*</code> environment variables, so a shell script can read it without a parser.</p>
+                        <div class="code"><pre><code>rune exec weather-lookup -- --station LKPR
+rune exec weather-lookup --json '{"station":"LKPR","hours":24}'
+rune exec weather-lookup --script alternate.sh -- --verbose</code></pre></div>
+                    </div></li>
+
+                    <li><div class="step-body">
+                        <p>Consume the result programmatically. In JSON mode the child's output is wrapped in a stable envelope that preserves the raw streams alongside the parsed value.</p>
+                        <div class="code"><pre><code>rune exec weather-lookup --json '{"station":"LKPR"}' | jq .structured</code></pre></div>
+                        <p class="expect"><b>Expect</b> The envelope is <code>{ ok, exit_code, structured, stdout, stderr }</code>. When <code>outputSchema</code> is declared, stdout must parse as JSON and validate against the schema file, resolved relative to the skill directory. Rune never creates a virtual environment or installs a package on your behalf.</p>
+                    </div></li>
+                </ol>
+            </div>
+        </section>
+
+        <div class="part"><span>Part III · Closing</span></div>
+
+        <!-- ============ 17 ============ -->
+        <section id="state">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᛊ</span><h2>State of play</h2></div>
+
+            <p>Read this section before you plan anything around the org. Everything above is real and documented; the following is what is actually usable today.</p>
+
+            <ul class="plain">
+                <li><strong>The CLI is substantial and moving fast.</strong> <code>v0.5.0</code> is tagged, and the Unreleased section already carries launch profiles, provider enable/disable, the todo and ADR surfaces, docs link checking, OpenSpec interop, manifest schema v2 with workspace members, workshop init, and the plugin deploy shape. Version <code>0.4.0</code> is recorded as succeeding <code>forge-cli 0.3.x</code>, so the lineage predates the org by some months.</li>
+                <li><strong>The deck is nearly empty.</strong> Only the <code>meta</code> domain publishes anything, and it publishes exactly one artifact: the <code>rune</code> skill that teaches an agent to drive the CLI. The <code>development</code>, <code>council</code>, and <code>research</code> domains carry a <code>module.yaml</code>, a README, and a license, with no skills, agents, or rules. <code>casts/all.yaml</code> selects <code>meta/**</code> and nothing else. The README is upfront about this: domains fill as artifacts pass adoption review.</li>
+                <li><strong>Installation builds from source.</strong> No GitHub Releases are published on the CLI repo, so the Homebrew formula fetches the tag tarball and compiles it, with Rust as a build dependency. The formula's URL still uses the pre-rename repository path and works only because GitHub redirects it.</li>
+                <li><strong>The skeleton repo is ahead of the CLI.</strong> Its README and <code>template-composition</code> spec describe flat, name-selected composition via <code>--with rust,tool</code>. The shipped CLI implements the earlier two-dimensional model, requiring <code>base</code>, <code>lang/&lt;lang&gt;</code>, and <code>purpose/&lt;purpose&gt;</code> layers that the published repo does not contain, and has no <code>--with</code> flag at all. Pointing <code>--skeleton</code> at a clone of the repo fails with a missing-layer error; the embedded fallback skeleton is what actually runs. This is the one gap likely to cost you real time.</li>
+                <li><strong>Smaller documentation drift.</strong> The Tour prints <code>0.4.0</code> for <code>rune --version</code> while the crate is at <code>0.5.0</code>, and the CLI README's project-start block still uses <code>rune quest</code>, which <code>0.5.0</code> renamed to <code>rune target</code> (kept as a hidden alias). The <code>authors.yaml</code> allowlist that the attribution check depends on is specified but not yet present in the skeleton, though the correctness review workflow is there, with its actions SHA-pinned. The embedded skeleton also carries a <code>node</code> toolchain layer that <code>--lang</code> cannot yet select.</li>
+            </ul>
+
+            <p>The honest summary: this is a serious, unusually well-documented single-operator toolchain in a fast pre-1.0 phase, with the tool substantially ahead of the content it is built to distribute. If you want to use it, the CLI is the product. If you want to learn from it, the specs, ADRs, and the crew ceremony are where the transferable ideas are.</p>
+        </section>
+
+        <!-- ============ 18 ============ -->
+        <section id="next">
+            <div class="sect-head"><span class="rune" aria-hidden="true">ᛏ</span><h2>Where to read next</h2></div>
+
+            <div class="scroller">
+                <table>
+                    <thead><tr><th>If you want</th><th>Read</th></tr></thead>
+                    <tbody>
+                        <tr><td>The pitch and the full command reference</td><td class="mono">cli/README.md</td></tr>
+                        <tr><td>A guided walkthrough with expected results</td><td class="mono">cli/docs/Tour.md</td></tr>
+                        <tr><td>Architecture and module map, written for an agent</td><td class="mono">cli/CLAUDE.md</td></tr>
+                        <tr><td>Why anything is the way it is</td><td class="mono">cli/docs/decisions/</td></tr>
+                        <tr><td>How an agent is meant to drive the tool</td><td class="mono">deck/runes/meta/skills/rune/SKILL.md</td></tr>
+                        <tr><td>The repo ceremony, as normative requirements</td><td class="mono">skeleton/docs/specs/</td></tr>
+                        <tr><td>How it compares to the nearest alternative</td><td class="mono">cli/docs/Crew Parity.md</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>One reading order that works: the CLI README for shape, the lexicon and the two flows here for orientation, then <code>DECK-0001</code> for the source model and <code>CLI-0020</code> for the plugin decision. Those two ADRs carry more of the design's actual reasoning than any other pair of documents in the org.</p>
+        </section>
+
+    </main>
+
+    <footer>
+        <span>Compiled from the public runedeck repositories at their current tips. Private repo <code>bench</code> not examined.</span>
+        <span>Version references: <code>rune-cli</code> 0.5.0 tagged, plus an unreleased section. Parity matrix pinned to <code>with-logic/crew</code> at commit <code>19c0369</code>.</span>
+    </footer>
+
+</div>
+
+<script>
+    (function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll('.rail a'));
+        var byId = {};
+        links.forEach(function (link) {
+            byId[link.getAttribute('href').slice(1)] = link;
+        });
+
+        // Anchors in document order. Tutorial anchors are divs nested inside a
+        // tall parent section, so "first element intersecting a band" would pin
+        // the marker to the parent for the whole track. Picking the last anchor
+        // above a reading line handles nesting because order is preserved.
+        var targets = links
+            .map(function (link) { return document.getElementById(link.getAttribute('href').slice(1)); })
+            .filter(Boolean);
+        if (!targets.length) { return; }
+
+        var rail = document.querySelector('.rail');
+        var marker = document.createElement('span');
+        marker.className = 'rail-marker';
+        rail.appendChild(marker);
+        rail.setAttribute('data-marker', 'on');
+
+        var active = null;
+
+        function setActive(link) {
+            if (!link) { return; }
+            if (link !== active) {
+                links.forEach(function (other) { other.removeAttribute('aria-current'); });
+                link.setAttribute('aria-current', 'true');
+                active = link;
+            }
+            marker.style.height = link.offsetHeight + 'px';
+            marker.style.transform = 'translateY(' + link.offsetTop + 'px)';
+            marker.style.opacity = '1';
+
+            // Keep the active entry visible when the rail itself scrolls.
+            // Only the rail's own scrollTop moves, never the page.
+            if (rail.scrollHeight > rail.clientHeight) {
+                var top = link.offsetTop;
+                var bottom = top + link.offsetHeight;
+                if (top < rail.scrollTop) { rail.scrollTop = top - 8; }
+                else if (bottom > rail.scrollTop + rail.clientHeight) {
+                    rail.scrollTop = bottom - rail.clientHeight + 8;
+                }
+            }
+        }
+
+        function currentLink() {
+            var doc = document.documentElement;
+            var atBottom = window.innerHeight + window.scrollY >= doc.scrollHeight - 2;
+            if (atBottom) { return byId[targets[targets.length - 1].id]; }
+
+            var line = window.innerHeight * 0.28;
+            var found = targets[0];
+            for (var i = 0; i < targets.length; i++) {
+                if (targets[i].getBoundingClientRect().top - line <= 0) { found = targets[i]; }
+                else { break; }
+            }
+            return byId[found.id];
+        }
+
+        // A click sets the marker immediately, then holds it while the smooth
+        // scroll runs so intermediate positions cannot flicker it elsewhere.
+        var lockedUntil = 0;
+        links.forEach(function (link) {
+            link.addEventListener('click', function () {
+                lockedUntil = Date.now() + 700;
+                setActive(link);
+            });
+        });
+
+        var queued = false;
+        function onScroll() {
+            if (queued) { return; }
+            queued = true;
+            window.requestAnimationFrame(function () {
+                queued = false;
+                if (Date.now() < lockedUntil) { return; }
+                setActive(currentLink());
+            });
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', function () {
+            lockedUntil = 0;
+            setActive(currentLink());
+        });
+
+        setActive(currentLink());
+    })();
+</script>
+
 </body>
 </html>
