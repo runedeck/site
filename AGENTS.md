@@ -1,0 +1,9 @@
+# Rune Site
+
+> Brief: The runedeck website: static HTML, no build system, no external requests.
+
+## Conventions
+
+- `make install` installs the repository check tools and activates the commit and push hooks. Run it once after cloning.
+- Commit format: `type: description` (feat, fix, docs, chore, refactor, test), lowercase, no scope.
+- Every text file ends with a newline, uses 4-space indentation, and has no tabs outside Makefiles.
