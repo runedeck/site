@@ -3,5 +3,5 @@ BRIEF: 'The runedeck website: static HTML, no build system, no external requests
 NAME: site
 OWNER: runedeck
 TITLE: Rune Site
-_commit: 5e4657b
+_commit: 6374d8f
 _src_path: https://github.com/runedeck/skeleton.git
